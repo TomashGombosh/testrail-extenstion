@@ -1,25 +1,42 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, { useEffect, useState } from 'react';
 import './App.css';
+import { ChromeMessage, Sender } from "./types";
 
-function App() {
+const App = () => {
+  const [responseFromContent, setResponseFromContent] = useState<string>('');
+
+  const redirect = () => {
+    const message: ChromeMessage = {
+        from: Sender.React,
+        message: "redirect",
+    }
+    const queryInfo: chrome.tabs.QueryInfo = {
+        active: true,
+        currentWindow: true
+    };
+
+    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
+        const currentTabId = tabs[0]?.id; 
+        if(currentTabId) {
+        chrome.tabs.sendMessage(
+            currentTabId,
+            message,
+            (response) => {
+              setResponseFromContent(response);
+            });
+          }
+    });
+};
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h3>Welcome to the Test rail support application</h3>
+      <div>
+        <button onClick={redirect}>Click me</button>
+        {/* <span>{responseFromContent}</span> */}
+      </div>
     </div>
+
   );
 }
 
