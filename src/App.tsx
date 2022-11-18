@@ -1,8 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from "react-router-dom";
+import Grid from '@mui/material/Grid';
+import api from "./service/api/api";
 import './App.css';
 import { ChromeMessage, Sender } from "./types";
+import { TEST_RAIL_TOKEN_ATTRIBUTE } from './constants';
 
-const App = () => {
+const className = process.env.ENV === "PROD" ? "extension" : "browser debug";
+
+
+const App = (props: any) => {
+
+  useEffect(() => {
+
+  }, [])
+
   const [responseFromContent, setResponseFromContent] = useState<string>('');
 
   const redirect = () => {
@@ -29,13 +41,9 @@ const App = () => {
 };
 
   return (
-    <div>
-      <h3>Welcome to the Test rail support application</h3>
-      <div>
-        <button onClick={redirect}>Click me</button>
-        {/* <span>{responseFromContent}</span> */}
-      </div>
-    </div>
+    <Grid container direction="row" alignItems="center" className={className}>
+        {props.children}
+    </Grid>
 
   );
 }
