@@ -1,12 +1,13 @@
 import React, { lazy, Suspense, createElement } from 'react';
 import ReactDOM from 'react-dom/client';
 import CircularProgress from '@mui/material/CircularProgress';
-import { MemoryRouter as Router, BrowserRouter, Route, Routes } from 'react-router-dom';
+import { MemoryRouter, BrowserRouter, Route, Routes } from 'react-router-dom';
+//import { MemoryRounter as Router, Route, Routes } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-// const Router = process.env.ENV === "PROD" ? MemoryRouter : BrowserRouter;
+const Router = process.env.ENV === "PROD" ? MemoryRouter : BrowserRouter;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -14,7 +15,8 @@ const root = ReactDOM.createRoot(
 
 const TokenForm = lazy(() => import("./components/form/TokenForm"));
 const StartForm = lazy(() => import("./components/form/StartForm"));
-const Projects = lazy(() => import("./components/form/Projects"));
+const ProjectsForm = lazy(() => import("./components/form/ProjectsForm"));
+const WorkForm = lazy(() => import("./components/form/WorkForm"));
 
 const Main = () => {
   return (
@@ -24,7 +26,10 @@ const Main = () => {
           <Route path="/token" element={<App><TokenForm /></App> } />
         </Routes>
         <Routes>
-          <Route path="/projects" element={<App><Projects /></App> } />
+          <Route path="/projects" element={<App><ProjectsForm /></App> } />
+        </Routes>
+        <Routes>
+          <Route path="/work" element={<App><WorkForm /></App> } />
         </Routes>
         <Routes>
           <Route path="/" element={<App><StartForm /></App>} />

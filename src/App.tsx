@@ -6,7 +6,7 @@ import './App.css';
 import { ChromeMessage, Sender } from "./types";
 import { TEST_RAIL_TOKEN_ATTRIBUTE } from './constants';
 
-const className = process.env.ENV === "PROD" ? "extension" : "browser debug";
+const className = process.env.ENV === "PROD" ? "extension" : "browser";
 
 
 const App = (props: any) => {
@@ -42,7 +42,15 @@ const App = (props: any) => {
 
   return (
     <Grid container direction="row" alignItems="center" className={className}>
-        {props.children}
+        <Grid item className="header">
+          <h2>Welcome to the TestRail extension</h2>
+        </Grid>
+        <Grid item className="content">
+          {props.children}
+        </Grid>
+        <Grid item className="footer">
+          © 2022 iDeals. All rights reserved.
+        </Grid>
     </Grid>
 
   );
