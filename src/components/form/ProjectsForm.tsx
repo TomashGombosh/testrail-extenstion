@@ -12,7 +12,6 @@ import { TEST_RAIL_EMAIL_ATTRIBUTE, TEST_RAIL_PROJECT_IDS_ATTRIBUTE, TEST_RAIL_T
 
 import "./Form.css";
 
-
 const Projects = () => {
     const [projects, setProjects] = useState<Project[]>([]);
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -20,6 +19,7 @@ const Projects = () => {
         new Array(projects.length).fill(false)
       );
     const [projectIds, setProjectIds] = useState<string[]>([]);
+    const [error, setError] = useState<string>("");
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -33,6 +33,13 @@ const Projects = () => {
             if(response.status === 200) {
                 setProjects(response.data.projects);
                 setLoading(false);
+            } else if(response.status === 401) {
+                localStorage.removeItem(TEST_RAIL_EMAIL_ATTRIBUTE);
+                localStorage.removeItem(TEST_RAIL_TOKEN_ATTRIBUTE);
+                navigate("/token");
+            } else {
+                setLoading(false); 
+                setError(response.data.message);
             }
         }
 
@@ -58,7 +65,7 @@ const Projects = () => {
     return (
             <>
             {isLoading && <CircularProgress />}
-            {!isLoading && (
+            {!isLoading && error === "" && (
                 <Grid container direction="row" alignItems="flex-start" alignContent="flex-start" className="form">
                     <Grid item>
                         <FormGroup>
@@ -75,9 +82,20 @@ const Projects = () => {
                         </FormGroup>
                     </Grid>
                     <Grid item style={{ paddingTop: "20px", width: "250px", margin: "auto" }}>
-                    <Button variant="contained" className="form-button" onClick={handleClick}>Select</Button>
+                        <Button variant="contained" className="form-button small" onClick={() => navigate("/")}>Back</Button>
+                        <Button variant="contained" className="form-button small" onClick={handleClick}>Select</Button>
                     </Grid>
                 </Grid>)}
+            {!isLoading && error !== "" && (
+                <Grid container direction="row" alignItems="flex-start" alignContent="flex-start" className="form">
+                    <Grid item>
+                        <span>{error}</span>
+                    </Grid>
+                    <Grid item style={{ paddingTop: "20px", width: "250px", margin: "auto" }}>
+                        <Button variant="contained" className="form-button" onClick={() => navigate("/")}>Back</Button>
+                    </Grid>
+                </Grid>
+            )}
         </>
     )
 }

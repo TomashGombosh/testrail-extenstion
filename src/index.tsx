@@ -1,13 +1,11 @@
-import React, { lazy, Suspense, createElement } from 'react';
+import React, { lazy, Suspense } from 'react';
 import ReactDOM from 'react-dom/client';
 import CircularProgress from '@mui/material/CircularProgress';
-import { MemoryRouter, BrowserRouter, Route, Routes } from 'react-router-dom';
-//import { MemoryRounter as Router, Route, Routes } from "react-router-dom";
+import { MemoryRouter as Router, Route, Routes } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-const Router = process.env.ENV === "PROD" ? MemoryRouter : BrowserRouter;
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -29,7 +27,13 @@ const Main = () => {
           <Route path="/projects" element={<App><ProjectsForm /></App> } />
         </Routes>
         <Routes>
-          <Route path="/work" element={<App><WorkForm /></App> } />
+          <Route path="/work/section" element={<App><WorkForm /></App> } />
+        </Routes>
+        <Routes>
+          <Route path="/work/cases" element={<App><WorkForm /></App> } />
+        </Routes>
+        <Routes>
+          <Route path="/work/references" element={<App><WorkForm /></App> } />
         </Routes>
         <Routes>
           <Route path="/" element={<App><StartForm /></App>} />

@@ -9,11 +9,15 @@
   },
   "permissions": [
     "activeTab",
+    "declarativeContent",
+    "storage",
     "scripting"
   ],
   "content_scripts": [
     {
       "matches": [
+        "http://*/*",
+        "https://*/*",
         "<all_urls>"
       ],
       "js": [
@@ -28,9 +32,6 @@
     "48": "logo192.png",
     "128": "logo192.png"
   },
-  "optional_permissions": [
-    "<all_urls>"
-  ],
   "content_security_policy": {
     "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://music.yandex.ru/;"
   }

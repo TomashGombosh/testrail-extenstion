@@ -1,47 +1,26 @@
-import React, { useEffect, useState } from 'react';
-import { Link } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
-import api from "./service/api/api";
 import './App.css';
-import { ChromeMessage, Sender } from "./types";
-import { TEST_RAIL_TOKEN_ATTRIBUTE } from './constants';
-
-const className = process.env.ENV === "PROD" ? "extension" : "browser";
-
+import { TEST_RAIL_CASES_IDS_ATTRIBUTE, TEST_RAIL_REFERENCES_ATTRIBUTE, TEST_RAIL_SECTION_NAME_ATTRIBUTE } from './constants';
 
 const App = (props: any) => {
+  const navigate = useNavigate();
 
   useEffect(() => {
-
-  }, [])
-
-  const [responseFromContent, setResponseFromContent] = useState<string>('');
-
-  const redirect = () => {
-    const message: ChromeMessage = {
-        from: Sender.React,
-        message: "redirect",
+    if(localStorage.getItem(TEST_RAIL_REFERENCES_ATTRIBUTE) !== null) {
+      navigate("/work/references");
     }
-    const queryInfo: chrome.tabs.QueryInfo = {
-        active: true,
-        currentWindow: true
-    };
-
-    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
-        const currentTabId = tabs[0]?.id; 
-        if(currentTabId) {
-        chrome.tabs.sendMessage(
-            currentTabId,
-            message,
-            (response) => {
-              setResponseFromContent(response);
-            });
-          }
-    });
-};
+    if(localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE) !== null) {
+      navigate("/work/cases");
+    }
+    if(localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE) !== null) {
+      navigate("/work/cases");
+    }
+  }, [navigate])
 
   return (
-    <Grid container direction="row" alignItems="center" className={className}>
+    <Grid container direction="row" alignItems="center" className="extension">
         <Grid item className="header">
           <h2>Welcome to the TestRail extension</h2>
         </Grid>

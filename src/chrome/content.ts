@@ -1,20 +1,20 @@
-import { MY_SETTINGS, TEST_RAIL_URL, USER_DROP_DOWN } from "../constants";
 import { ChromeMessage, Sender } from "../types";
 
 const messagesFromReactAppListener = (message: ChromeMessage, sender: any, response:any) => {
-        window.location.href = "https://idealscorp.testrail.io/index.php?/mysettings";
-        let existCondition = setInterval(function() {
-            if (document.getElementById('navigation-user')) {
-               clearInterval(existCondition);
-               document.getElementById("navigation-user")?.click();
-            }
-           }, 100);
-        let existCondition2 = setInterval(function() {
-            if (document.getElementById('navigation-user-settings')) {
-               clearInterval(existCondition);
-               document.getElementById("navigation-user-settings")?.click();
-            }
-        }, 100);
+      console.log('[content.js]. Message received', {
+         message,
+         sender,
+      });
+      if (
+         sender.id === chrome.runtime.id &&
+         message.from === Sender.React &&
+         message.message === "get_selected") {
+            const firstMatchList = document.querySelectorAll(".oddSelected");
+            const secondMatchList = document.querySelectorAll(".evenSelected");
+            const list = Array.from(firstMatchList).map((el) => el.id.replaceAll(/^row-/g, "C"));
+            const finalList = list.concat(Array.from(secondMatchList).map((el) => el.id.replaceAll(/^row-/g, "C")));
+            response(finalList.join(","));
+     }
 }
 
 /**

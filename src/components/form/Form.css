@@ -3,11 +3,23 @@
     height: 250px;
 }
 
+.form h2 {
+    padding: 2px
+}
+
+h3 {
+    padding: 5px
+}
+
 .form-button {
     text-transform: none;
     background-color: rgb(37, 209, 37);
     margin-left: 25px;
     width: 175px;
+}
+
+.small {
+    width: 90px;
 }
 
 .form-button:hover {

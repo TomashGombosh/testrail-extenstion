@@ -1,6 +1,7 @@
 .extension {
   width: 250px;
   height: 500px;
+  border-radius: 10px;
 }
 
 [class*='MuiGrid-root'].browser {
@@ -41,4 +42,39 @@
 
 label.text > span {
   font-family: 'Noto Serif Khojki', serif;
+}
+
+.form {
+  width: 250px;
+  height: 250px;
+}
+
+.form-button {
+  text-transform: none;
+  background-color: rgb(37, 209, 37);
+  margin-left: 25px;
+  width: 175px;
+}
+
+.form-button:hover {
+  text-transform: none;
+  background-color: rgb(0, 131, 0);
+}
+
+.form-controll {
+  width: 250px;
+  height: 30px;
+  padding: 7px;
+}
+
+.start-screen-form-item {
+  padding: 10px;
+}
+
+.token-screen-form-item {
+  padding: 8px;
+}
+
+.work-screen-form-item {
+  padding: 5px;
 }

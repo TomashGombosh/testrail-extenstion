@@ -12,3 +12,6 @@ export const TEST_RAIL_MIDDLE_WARE_URL = "https://testrail-middleware.afj-soluti
 export const TEST_RAIL_TOKEN_ATTRIBUTE = "apiKey";
 export const TEST_RAIL_EMAIL_ATTRIBUTE = "email";
 export const TEST_RAIL_PROJECT_IDS_ATTRIBUTE = "projectIds";
+export const TEST_RAIL_SECTION_NAME_ATTRIBUTE = "sectionName";
+export const TEST_RAIL_CASES_IDS_ATTRIBUTE = "casesIds";
+export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";

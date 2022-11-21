@@ -4,6 +4,7 @@ import Grid from "@mui/material/Grid";
 import Button from "@mui/material/Button";
 import CircularProgress from '@mui/material/CircularProgress';
 import { TEST_RAIL_EMAIL_ATTRIBUTE, TEST_RAIL_PROJECT_IDS_ATTRIBUTE, TEST_RAIL_TOKEN_ATTRIBUTE } from "../../constants";
+
 import "./Form.css";
 
 const StartForm = () => {
@@ -38,10 +39,13 @@ const StartForm = () => {
             <Button component={Link} to="/projects" className="form-button" variant="contained">{isDisplaySetProjects ? "Set projects" : "Update projects"}</Button>
         </Grid>)}
         {!isDisplaySetToken && !isDisplaySetProjects && (<Grid item className="start-screen-form-item">
-            <Button component={Link} to="/work" className="form-button" variant="contained">Work with test cases</Button>
+            <Button component={Link} to="/work/section" className="form-button" variant="contained">Work with test cases</Button>
         </Grid>)}
         {!isDisplaySetToken && !isDisplaySetProjects && (<Grid item className="start-screen-form-item">
             <Button component={Link} to="/replace" className="form-button" variant="contained" disabled>Replace test cases</Button>
+        </Grid>)}
+        {!isDisplaySetToken && !isDisplaySetProjects && (<Grid item className="start-screen-form-item">
+            <Button component={Link} to="/replace" className="form-button" variant="contained" disabled>History</Button>
         </Grid>)}
         {!isDisplaySetToken && !isDisplaySetProjects && (<Grid item className="start-screen-form-item">
             <Button onClick={handleLogout} className="form-button" variant="contained">Logout</Button>
