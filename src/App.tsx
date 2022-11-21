@@ -2,21 +2,12 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from '@mui/material/Grid';
 import './App.css';
-import { TEST_RAIL_CASES_IDS_ATTRIBUTE, TEST_RAIL_REFERENCES_ATTRIBUTE, TEST_RAIL_SECTION_NAME_ATTRIBUTE } from './constants';
+import { TEST_RAIL_CASES_IDS_ATTRIBUTE, TEST_RAIL_SECTION_NAME_ATTRIBUTE } from './constants';
 
 const App = (props: any) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if(localStorage.getItem(TEST_RAIL_REFERENCES_ATTRIBUTE) !== null) {
-      navigate("/work/references");
-    }
-    if(localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE) !== null) {
-      navigate("/work/cases");
-    }
-    if(localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE) !== null) {
-      navigate("/work/cases");
-    }
   }, [navigate])
 
   return (

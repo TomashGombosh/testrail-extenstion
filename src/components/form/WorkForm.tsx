@@ -151,7 +151,8 @@ const WorkForm = () => {
                 setDisabled(true);
                 return;
             } else {
-                localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, casesIds);
+                setCasesIds(casesIds.replaceAll(/^,/g, ""))
+                localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, casesIds.replaceAll(/^,/g, ""));
                 navigate("/work/references");
             }
         }
