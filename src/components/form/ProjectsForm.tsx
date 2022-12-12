@@ -6,7 +6,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Button from "@mui/material/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import Project from "../../types/Project";
+import Project from "../../models/Project";
 import ProjectService from "../../service/api/ProjectService";
 import { TEST_RAIL_EMAIL_ATTRIBUTE, TEST_RAIL_PROJECT_IDS_ATTRIBUTE, TEST_RAIL_TOKEN_ATTRIBUTE, TEST_RAIL_URL } from '../../constants';
 
@@ -24,12 +24,7 @@ const Projects = () => {
 
     useEffect(() => {
         const getProjects = async () => {
-            const data = {
-                url: TEST_RAIL_URL,
-                email: localStorage.getItem(TEST_RAIL_EMAIL_ATTRIBUTE),
-                apiToken: localStorage.getItem(TEST_RAIL_TOKEN_ATTRIBUTE),
-            }
-            const response = await ProjectService.getProjects(data);
+            const response = await ProjectService.getProjects();
             if(response.status === 200) {
                 setProjects(response.data.projects);
                 setLoading(false);

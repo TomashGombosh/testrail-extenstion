@@ -17,6 +17,8 @@ import CasesService from '../../service/api/CasesService';
 import { ChromeMessage, Sender } from "../../types";
 import "./Form.css";
 import { IconButton } from '@mui/material';
+import CreateSectionRequest from '../../models/requests/CreateSectionRequest';
+import UpdateTestCasesRequest from '../../models/requests/UpdateTestCasesRequest';
 
 const WorkForm = () => {
     const [isLoading, setLoading] = useState<boolean>(true);
@@ -169,16 +171,12 @@ const WorkForm = () => {
         if(projectId === null) {
             navigate("/projects");
         } else {
-            const sectionResponse = await SectionService.createSection(data, projectId, sectionName);
+            const sectionResponse = await SectionService.createSection(new CreateSectionRequest(projectId, sectionName, sectionName));
             console.log(sectionResponse.status);
             if (sectionResponse.status === 200) {
                 const sectionId = sectionResponse.data.id;
                 const casesResponse = await CasesService.updateTestCases(
-                    data, 
-                    projectId,
-                    sectionId,
-                    casesIds.replaceAll(/C/g, "").split(","),
-                    reference
+                    new UpdateTestCasesRequest(projectId, sectionId, casesIds.replaceAll(/C/g, "").split(","), reference)
                 );
                 if(casesResponse.status === 200) {
                     navigate("/");

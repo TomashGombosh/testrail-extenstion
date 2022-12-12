@@ -1,19 +1,10 @@
+import UpdateTestCasesRequest from "../../models/requests/UpdateTestCasesRequest";
 import api from "./api";
 
 class CasesService {
 
-    async updateTestCases(data: object, projectId: string, sectionId: string, casesIds: string[], references: string) {
-        return await api.post("/cases", {
-            sectionId, 
-            projectId,
-            casesIds,
-            references
-        }, 
-        {
-            params: {
-                information: JSON.stringify(data)
-            }
-        });
+    async updateTestCases(request: UpdateTestCasesRequest) {
+        return await api.post("/cases", request);
     }
 }
 

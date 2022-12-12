@@ -15,3 +15,7 @@ export const TEST_RAIL_PROJECT_IDS_ATTRIBUTE = "projectIds";
 export const TEST_RAIL_SECTION_NAME_ATTRIBUTE = "sectionName";
 export const TEST_RAIL_CASES_IDS_ATTRIBUTE = "casesIds";
 export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";
+
+export const AUTH_TOKEN_ATTRIBUTE = "token";
+
+export * from "./routes";

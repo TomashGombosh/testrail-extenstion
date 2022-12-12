@@ -1,10 +1,12 @@
-import React, { lazy, Suspense } from 'react';
+import React, { lazy, Suspense, createElement } from 'react';
 import ReactDOM from 'react-dom/client';
 import CircularProgress from '@mui/material/CircularProgress';
 import { MemoryRouter as Router, Route, Routes } from "react-router-dom";
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import AuthenticatedRoute from './components/auth/AuthenticatedRoute';
+import LoginForm from './components/form/LoginForm';
 
 
 const root = ReactDOM.createRoot(
@@ -17,9 +19,21 @@ const ProjectsForm = lazy(() => import("./components/form/ProjectsForm"));
 const WorkForm = lazy(() => import("./components/form/WorkForm"));
 
 const Main = () => {
+
+  const renderAuthenticateRoute = (element: React.FunctionComponent) => (
+    <AuthenticatedRoute>
+      <App>
+        {createElement(element)}
+      </App>
+    </AuthenticatedRoute>
+  );
+
   return (
     <Router>
       <Suspense fallback={<CircularProgress />} >
+      <Routes>
+          <Route path="/login" element={<App><LoginForm /></App> } />
+        </Routes>
         <Routes>
           <Route path="/token" element={<App><TokenForm /></App> } />
         </Routes>
@@ -36,7 +50,7 @@ const Main = () => {
           <Route path="/work/references" element={<App><WorkForm /></App> } />
         </Routes>
         <Routes>
-          <Route path="/" element={<App><StartForm /></App>} />
+          <Route path="/" element={renderAuthenticateRoute(StartForm)} />
         </Routes>
       </Suspense>
     </Router>
