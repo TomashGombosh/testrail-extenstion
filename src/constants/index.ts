@@ -1,6 +1,4 @@
-export const TEST_RAIL_URL = "https://idealscorp.testrail.io";
-
-//Test rail locators
+// Test rail locators
 export const USER_DROP_DOWN = "#navigation-user";
 export const MY_SETTINGS = "#navigation-user-settings";
 export const API_KEYS = "tab4";
@@ -19,3 +17,5 @@ export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";
 export const AUTH_TOKEN_ATTRIBUTE = "token";
 
 export * from "./routes";
+
+export * from "./statusCodes";

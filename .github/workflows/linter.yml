@@ -1,0 +1,27 @@
+name: Linter
+
+on:
+  pull_request:
+    branches: [develop]
+
+permissions:
+  contents: read
+
+jobs:
+  eslint:
+    name: Run scanning
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [18.x]
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+      - name: Setup node
+        uses: actions/setup-node@master
+        with:
+          node-version: '18.x'    
+      - name: Install dependencies
+        run: npm install
+      - name: Run Eslint
+        run: npm run lint

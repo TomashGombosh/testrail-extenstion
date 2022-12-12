@@ -1,16 +1,17 @@
-import React, { lazy, Suspense, createElement } from 'react';
-import ReactDOM from 'react-dom/client';
-import CircularProgress from '@mui/material/CircularProgress';
+import React, { lazy, Suspense, createElement } from "react";
+import ReactDOM from "react-dom/client";
+import CircularProgress from "@mui/material/CircularProgress";
 import { MemoryRouter as Router, Route, Routes } from "react-router-dom";
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
-import AuthenticatedRoute from './components/auth/AuthenticatedRoute';
-import LoginForm from './components/form/LoginForm';
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import AuthenticatedRoute from "./components/auth/AuthenticatedRoute";
+import LoginForm from "./components/form/LoginForm";
+import { AUTH_ROUTES, PUBLIC_ROUTES } from "./constants";
 
+import "./index.css";
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 );
 
 const TokenForm = lazy(() => import("./components/form/TokenForm"));
@@ -19,7 +20,6 @@ const ProjectsForm = lazy(() => import("./components/form/ProjectsForm"));
 const WorkForm = lazy(() => import("./components/form/WorkForm"));
 
 const Main = () => {
-
   const renderAuthenticateRoute = (element: React.FunctionComponent) => (
     <AuthenticatedRoute>
       <App>
@@ -30,35 +30,36 @@ const Main = () => {
 
   return (
     <Router>
-      <Suspense fallback={<CircularProgress />} >
-      <Routes>
-          <Route path="/login" element={<App><LoginForm /></App> } />
+      <Suspense fallback={<CircularProgress />}>
+        <Routes>
+          <Route path={PUBLIC_ROUTES.LOGIN} element={<App><LoginForm /></App>} />
         </Routes>
         <Routes>
-          <Route path="/token" element={<App><TokenForm /></App> } />
+          <Route path={AUTH_ROUTES.TOKEN} element={renderAuthenticateRoute(TokenForm)} />
         </Routes>
         <Routes>
-          <Route path="/projects" element={<App><ProjectsForm /></App> } />
+          <Route path={AUTH_ROUTES.PROJECTS} element={renderAuthenticateRoute(ProjectsForm)} />
         </Routes>
         <Routes>
-          <Route path="/work/section" element={<App><WorkForm /></App> } />
+          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.SECTIONS}`} element={renderAuthenticateRoute(WorkForm)} />
         </Routes>
         <Routes>
-          <Route path="/work/cases" element={<App><WorkForm /></App> } />
+          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.CASES}`} element={renderAuthenticateRoute(WorkForm)} />
         </Routes>
         <Routes>
-          <Route path="/work/references" element={<App><WorkForm /></App> } />
+          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.REFERENCES}`} element={renderAuthenticateRoute(WorkForm)} />
         </Routes>
         <Routes>
-          <Route path="/" element={renderAuthenticateRoute(StartForm)} />
+          <Route path={AUTH_ROUTES.DASHBOARD} element={renderAuthenticateRoute(StartForm)} />
         </Routes>
       </Suspense>
     </Router>
-  )
-}
+  );
+};
+
 root.render(
   <React.StrictMode>
-      <Main />
+    <Main />
   </React.StrictMode>
 );
 
