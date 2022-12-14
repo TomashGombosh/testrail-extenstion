@@ -1,4 +1,4 @@
-import CreateSectionRequest from "../../types/requests/CreateSectionRequest";
+import { CreateSectionRequest } from "../../types/requests";
 import api from "./api";
 
 class SectionService {

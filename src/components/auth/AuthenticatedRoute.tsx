@@ -1,14 +1,14 @@
-// eslint-disable-next-line no-unused-vars
-import React from "react";
-import { useNavigate } from "react-router-dom";
+import * as React from "react";
+import { Navigate } from "react-router-dom";
 import { AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
 
-const AuthenticatedRoute = (props: any) => {
-  const navigate = useNavigate();
+const AuthenticatedRoute = ({ children: React. }) => {
   if (localStorage.getItem(AUTH_TOKEN_ATTRIBUTE) == null) {
-    navigate(PUBLIC_ROUTES.LOGIN);
+    return (
+      <Navigate to={PUBLIC_ROUTES.LOGIN} />
+    );
   }
-  return props.children;
+  return children;
 };
 
 export default AuthenticatedRoute;
