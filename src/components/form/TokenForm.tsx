@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-
-import "./Form.css";
+import Button from "../button/Button";
 import { StoreUserTestRailDataRequest } from "../../types/requests";
 import UserService from "../../service/api/UserService";
 import { AUTH_ROUTES, OK } from "../../constants";
 
+import "./Form.css";
+import Loader from "../loader/Loader";
+import Form from "./Form";
+
 const TokenForm = () => {
+  const [isLoading] = useState<boolean>(false);
   const [token, setToken] = useState<string>("");
   const [url, setUrl] = useState<string>("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-  }, []);
 
   const handleClick = async () => {
     const request: StoreUserTestRailDataRequest = {
@@ -28,22 +28,29 @@ const TokenForm = () => {
     }
   };
 
-  return (
-    <Grid container direction="row" alignItems="center">
-      <Grid item>
-        <h2>Store you token</h2>
+  const fields = [
+    {
+      element: (<TextField type="text" placeholder="Url" onChange={(e) => setToken(e.target.value)} value={token} size="small" />),
+    },
+    {
+      element: (<TextField type="password" placeholder="Token" onChange={(e) => setUrl(e.target.value)} value={url} size="small" />),
+    },
+    {
+      element: (<Button handleClick={handleClick} text="Add"/>),
+    },
+    {
+      element: (<Button handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back"/>),
+    },
+  ];
+
+  const content = isLoading
+    ? <Loader />
+    : fields.map((el, index) => (
+      <Grid item key={index} className="form-item">
+        {el.element}
       </Grid>
-      <Grid item className="token-screen-form-item">
-        <TextField type="text" placeholder="Url" onChange={(e) => setToken(e.target.value)} value={token} size="small" />
-      </Grid>
-      <Grid item className="token-screen-form-item">
-        <TextField type="password" placeholder="Token" onChange={(e) => setUrl(e.target.value)} value={url} size="small" />
-      </Grid>
-      <Grid item className="token-screen-form-item">
-        <Button onClick={handleClick} className="form-button" variant="contained">Add</Button>
-      </Grid>
-    </Grid>
-  );
+    ));
+  return (<Form header="Store you token" content={content} />);
 };
 
 export default TokenForm;

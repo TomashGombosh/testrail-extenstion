@@ -17,9 +17,10 @@
 
 .header { 
   background-color: rgb(34, 177, 34);
-  height: 100px;
-  border-top-left-radius: 10px;
-  border-top-right-radius: -10px;
+  min-height: 20px;
+  width: 100%;
+  max-height: 100px;
+  border-radius: 10px 0 0 0;
 }
 
 .header > h2 {
@@ -27,7 +28,8 @@
 }
 
 .content {
-  height: 350px;
+  min-height: 350px;
+  max-height: 450px;
   width: 250px;
 }
 
@@ -36,8 +38,7 @@
   background-color: rgb(34, 177, 34);
   height: 30px;
   width: 250px;
-  border-bottom-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-radius: 0 0 10px 10px;
 }
 
 label.text > span {
@@ -49,32 +50,26 @@ label.text > span {
   height: 250px;
 }
 
-.form-button {
-  text-transform: none;
-  background-color: rgb(37, 209, 37);
-  margin-left: 25px;
-  width: 175px;
-}
-
-.form-button:hover {
-  text-transform: none;
-  background-color: rgb(0, 131, 0);
-}
-
-.form-controll {
-  width: 250px;
-  height: 30px;
-  padding: 7px;
-}
-
-.start-screen-form-item {
+.form-item {
   padding: 10px;
 }
 
-.token-screen-form-item {
+.form-item {
   padding: 8px;
 }
 
 .work-screen-form-item {
   padding: 5px;
 }
+
+.MuiButton-root.MuiButton-contained {
+  text-transform: none;
+  background-color: rgb(37, 209, 37);
+  width: 175px;
+}
+
+.MuiButton-root.MuiButton-contained:hover {
+  text-transform: none;
+  background-color: rgb(0, 131, 0);
+}
+

@@ -6,12 +6,16 @@ export const PUBLIC_ROUTES: Routing = {
 
 export const AUTH_ROUTES: Routing = {
   DASHBOARD: "/",
-  TOKEN: "/token",
-  PROJECTS: "/projects",
-  WORK: "/work",
-  SECTIONS: "/sections",
   CASES: "/cases",
+  SECTIONS: "/section",
+  COPY: "/copy",
+  MERGE: "/merge",
   REFERENCES: "/references",
+  SETTINGS: "/settings",
+  PROJECTS: "/projects",
+  TEAMS: "/teams",
+  TOKEN: "/token",
+  HISTORY: "/history",
 };
 
 export const API_ROUTES: Routing = {
@@ -21,6 +25,7 @@ export const API_ROUTES: Routing = {
   UPDATE_TEST_RAIL: "/testrail",
   PROJECTS: "/projects",
   SECTIONS: "/sections",
+  TEAMS: "/teams",
   CASES: "/cases",
   COPY: "/copy",
   MERGE: "/merge",

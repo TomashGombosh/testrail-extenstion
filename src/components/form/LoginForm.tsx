@@ -1,16 +1,19 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
+import Button from "../button/Button";
 import TextField from "@mui/material/TextField";
 import { AUTH_TOKEN_ATTRIBUTE, AUTH_ROUTES, OK } from "../../constants";
 import api from "../../service/api/api";
-
-import "./Form.css";
 import LoginService from "../../service/api/LoginService";
 import { LoginRequest } from "../../types/requests/LoginRequest";
+import Form from "./Form";
+import Loader from "../loader/Loader";
+
+import "./Form.css";
 
 const LoginForm = () => {
+  const [isLoading, setLoading] = useState<boolean>(true);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -19,9 +22,11 @@ const LoginForm = () => {
     if (localStorage.getItem(AUTH_TOKEN_ATTRIBUTE) !== null) {
       navigate(AUTH_ROUTES.DASHBOARD);
     }
+    setLoading(false);
   }, []);
 
   const handleClick = async () => {
+    setLoading(true);
     const request: LoginRequest = {
       email,
       password,
@@ -33,24 +38,20 @@ const LoginForm = () => {
       api.defaults.headers.Authorization = `Bearer ${token}`;
       navigate(AUTH_ROUTES.DASHBOARD);
     }
+    setLoading(false);
   };
 
-  return (
-    <Grid container direction="row" alignItems="center">
-      <Grid item>
-        <h2>Login</h2>
-      </Grid>
-      <Grid item className="token-screen-form-item">
-        <TextField placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} size="small" />
-      </Grid>
-      <Grid item className="token-screen-form-item">
-        <TextField type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} size="small" />
-      </Grid>
-      <Grid item className="token-screen-form-item">
-        <Button onClick={handleClick} className="form-button" variant="contained">Login</Button>
-      </Grid>
-    </Grid>
-  );
+  const content: ReactNode = isLoading
+    ? <Loader />
+    : (<><Grid item className="form-item">
+      <TextField placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} size="small" />
+    </Grid><Grid item className="form-item">
+      <TextField type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} size="small" />
+    </Grid><Grid item className="form-item">
+      <Button handleClick={handleClick} text="Login" />
+    </Grid></>);
+
+  return (<Form content={content} header="Login" />);
 };
 
 export default LoginForm;

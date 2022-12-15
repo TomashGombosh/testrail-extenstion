@@ -16,13 +16,15 @@ const root = ReactDOM.createRoot(
 
 const TokenForm = lazy(() => import("./components/form/TokenForm"));
 const StartForm = lazy(() => import("./components/form/StartForm"));
+const SettingsForm = lazy(() => import("./components/form/SettingsForm"));
 const ProjectsForm = lazy(() => import("./components/form/ProjectsForm"));
+const TeamsForm = lazy(() => import("./components/form/TeamsForm"));
 const WorkForm = lazy(() => import("./components/form/WorkForm"));
 
 const Main = () => {
   const renderAuthenticateRoute = (element: React.FunctionComponent) => (
     <AuthenticatedRoute>
-      <App>
+      <App isShowHeader={false}>
         {createElement(element)}
       </App>
     </AuthenticatedRoute>
@@ -32,22 +34,28 @@ const Main = () => {
     <Router>
       <Suspense fallback={<CircularProgress />}>
         <Routes>
-          <Route path={PUBLIC_ROUTES.LOGIN} element={<App><LoginForm /></App>} />
+          <Route path={PUBLIC_ROUTES.LOGIN} element={<App isShowHeader={true}><LoginForm /></App>} />
         </Routes>
         <Routes>
-          <Route path={AUTH_ROUTES.TOKEN} element={renderAuthenticateRoute(TokenForm)} />
+          <Route path={AUTH_ROUTES.SETTINGS} element={renderAuthenticateRoute(SettingsForm)} />
         </Routes>
         <Routes>
-          <Route path={AUTH_ROUTES.PROJECTS} element={renderAuthenticateRoute(ProjectsForm)} />
+          <Route path={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TOKEN}`} element={renderAuthenticateRoute(TokenForm)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.SECTIONS}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.PROJECTS}`} element={renderAuthenticateRoute(ProjectsForm)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.CASES}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TEAMS}`} element={renderAuthenticateRoute(TeamsForm)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.WORK}${AUTH_ROUTES.REFERENCES}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`} element={renderAuthenticateRoute(WorkForm)} />
+        </Routes>
+        <Routes>
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.CASES}`} element={renderAuthenticateRoute(WorkForm)} />
+        </Routes>
+        <Routes>
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`} element={renderAuthenticateRoute(WorkForm)} />
         </Routes>
         <Routes>
           <Route path={AUTH_ROUTES.DASHBOARD} element={renderAuthenticateRoute(StartForm)} />

@@ -1,46 +1,38 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import LinkButton, { LinkButtonProps } from "../button/LinkButton";
-import Button from "../button/Button";
 import CircularProgress from "@mui/material/CircularProgress";
-import { AUTH_ROUTES, AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
+import { AUTH_ROUTES } from "../../constants";
+
+import "./Form.css";
 import Form from "./Form";
 
-const StartForm = () => {
+const SettingsForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
-  const navigate = useNavigate();
-
   useEffect(() => {
     setLoading(false);
   }, [isLoading]);
 
-  const handleLogout = () => {
-    setLoading(true);
-    localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
-    navigate(PUBLIC_ROUTES.LOGIN);
-  };
-
   const buttons: Array<LinkButtonProps> = [
     {
-      link: `${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`,
-      text: "Copy cases",
+      link: `${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.PROJECTS}`,
+      text: "Projects",
       disabled: false,
     },
     {
-      link: `${AUTH_ROUTES.CASES}${AUTH_ROUTES.MERGE}`,
-      text: "Merge cases",
+      link: `${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TEAMS}`,
+      text: "Teams",
       disabled: false,
     },
     {
-      link: AUTH_ROUTES.SETTINGS,
-      text: "Setting",
+      link: `${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TOKEN}`,
+      text: "Testrail data",
       disabled: false,
     },
     {
-      link: AUTH_ROUTES.HISTORY,
-      text: "History",
-      disabled: true,
+      link: AUTH_ROUTES.DASHBOARD,
+      text: "Back",
+      disabled: false,
     },
   ];
 
@@ -52,9 +44,6 @@ const StartForm = () => {
           <Grid item className="form-item" key={index}>
             <LinkButton link={button.link } text={button.text} disabled={button.disabled}/>
           </Grid>))}
-        <Grid item className="form-item">
-          <Button handleClick={handleLogout} text="Logout"/>
-        </Grid>
       </>
     );
   return (
@@ -62,4 +51,4 @@ const StartForm = () => {
   );
 };
 
-export default StartForm;
+export default SettingsForm;

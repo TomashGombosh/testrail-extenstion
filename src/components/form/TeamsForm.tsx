@@ -5,7 +5,6 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 import Project from "../../types/Project";
-import ProjectService from "../../service/api/ProjectService";
 import {
   AUTH_ROUTES,
   AUTH_TOKEN_ATTRIBUTE,
@@ -17,35 +16,39 @@ import {
 import Loader from "../loader/Loader";
 import Form from "./Form";
 import SmallButton from "../button/SmallButton";
+import SectionService from "../../service/api/SectionService";
 
-import "./Form.css";
-
-const ProjectsForm = () => {
-  const [projects, setProjects] = useState<Project[]>([]);
+const TeamsForm = () => {
+  const [teams, setTeams] = useState<Project[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [checkedState, setCheckedState] = useState<boolean[]>(
-    new Array(projects.length).fill(false)
+    new Array(teams.length).fill(false)
   );
   const [projectIds, setProjectIds] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
-    const getProjects = async () => {
-      const response = await ProjectService.getProjects();
-      if (response.status === OK) {
-        setProjects(response.data.projects);
-        setLoading(false);
-      } else if (response.status === UNAUTHORIZED) {
-        localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
-        navigate(PUBLIC_ROUTES.LOGIN);
+    const getTeams = async () => {
+      const projectId = localStorage.getItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE);
+      if (projectId !== null) {
+        const response = await SectionService.getTeams(projectId);
+        if (response.status === OK) {
+          setTeams(response.data.projects);
+          setLoading(false);
+        } else if (response.status === UNAUTHORIZED) {
+          localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
+          navigate(PUBLIC_ROUTES.LOGIN);
+        } else {
+          setLoading(false);
+          setError(response.data.error);
+        }
       } else {
-        setLoading(false);
-        setError(response.data.message);
+        navigate(`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.PROJECTS}`);
       }
     };
 
-    getProjects();
+    getTeams();
   }, []);
 
   const handleOnChange = (position: any) => {
@@ -65,17 +68,17 @@ const ProjectsForm = () => {
     ? <Loader />
     : (<Grid container>
       <Grid item><FormGroup>
-        {projects.map((project) => (
+        {teams.map((team) => (
           <FormControlLabel
-            key={project.id}
+            key={team.id}
             control={(
               <Checkbox
-                id={`${project.id}`}
-                checked={checkedState[project.id]}
+                id={`${team.id}`}
+                checked={checkedState[team.id]}
                 onChange={(e) => handleOnChange(e)}
-              />
+                disabled={team.name !== "Sandbox"} />
             )}
-            label={project.name}
+            label={team.name}
             className="text form-controll" />
         ))}
       </FormGroup>
@@ -88,11 +91,12 @@ const ProjectsForm = () => {
   const errorContent =
     <Grid item>
       <span>{error}</span>
+      <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back" />
     </Grid>;
 
   return error === ""
-    ? <Form header="Select Project" content={content}/>
-    : <Form header="Something went woring" content={errorContent}/>;
+    ? <Form header="Select Team" content={content}/>
+    : <Form header="Something went wrong" content={errorContent}/>;
 };
 
-export default ProjectsForm;
+export default TeamsForm;

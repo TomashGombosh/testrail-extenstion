@@ -7,22 +7,11 @@
     "default_popup": "index.html",
     "default_title": "Welcome to Extension"
   },
-  "permissions": [
-    "activeTab",
-    "declarativeContent",
-    "storage",
-    "scripting"
-  ],
+  "permissions": ["activeTab", "declarativeContent", "storage", "scripting"],
   "content_scripts": [
     {
-      "matches": [
-        "http://*/*",
-        "https://*/*",
-        "<all_urls>"
-      ],
-      "js": [
-        "./static/js/content.js"
-      ],
+      "matches": ["http://*/*", "https://*/*", "<all_urls>"],
+      "js": ["./static/js/content.js"],
       "all_frames": false,
       "run_at": "document_end"
     }
@@ -33,6 +22,6 @@
     "128": "logo192.png"
   },
   "content_security_policy": {
-    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline' https://music.yandex.ru/;"
+    "extension_pages": "script-src 'self'; object-src 'self'; script-src-elem 'self' 'unsafe-inline';"
   }
 }
