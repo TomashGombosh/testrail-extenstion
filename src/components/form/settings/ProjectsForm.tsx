@@ -4,8 +4,8 @@ import Grid from "@mui/material/Grid";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Project from "../../types/Project";
-import ProjectService from "../../service/api/ProjectService";
+import Project from "../../../types/Project";
+import ProjectService from "../../../service/api/ProjectService";
 import {
   AUTH_ROUTES,
   AUTH_TOKEN_ATTRIBUTE,
@@ -13,12 +13,11 @@ import {
   PUBLIC_ROUTES,
   TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
   UNAUTHORIZED,
-} from "../../constants";
-import Loader from "../loader/Loader";
-import Form from "./Form";
-import SmallButton from "../button/SmallButton";
-
-import "./Form.css";
+} from "../../../constants";
+import Loader from "../../loader/Loader";
+import Form from "../core/Form";
+import SmallButton from "../../button/SmallButton";
+import ErrorForm from "../core/ErrorForm";
 
 const ProjectsForm = () => {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -56,8 +55,8 @@ const ProjectsForm = () => {
   };
 
   const handleClick = () => {
-    const arrayToString = projectIds.join(",");
-    localStorage.setItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE, arrayToString);
+    localStorage.setItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
+      JSON.stringify(projects.filter((p: Project) => projectIds.includes(`${p.id}`))));
     navigate(AUTH_ROUTES.SETTINGS);
   };
 
@@ -80,19 +79,14 @@ const ProjectsForm = () => {
         ))}
       </FormGroup>
       </Grid>
-      <Grid item style={{width: "100%"}} id="select-project-buttons">
+      <Grid item style={{width: "100%"}} id="buttons">
         <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back" />
         <SmallButton handleClick={handleClick} text="Select" />
       </Grid>
     </Grid>);
-  const errorContent =
-    <Grid item>
-      <span>{error}</span>
-    </Grid>;
-
   return error === ""
     ? <Form header="Select Project" content={content}/>
-    : <Form header="Something went woring" content={errorContent}/>;
+    : <ErrorForm errorMessage={error}/>;
 };
 
 export default ProjectsForm;

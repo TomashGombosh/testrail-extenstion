@@ -46,10 +46,14 @@ h3 {
     padding: 7px;
 }
 
-#select-project-buttons>button:first-child {
+#buttons>button:first-child {
     float: left;
 }
 
-#select-project-buttons>button:last-child {
+#buttons>button:last-child {
     float: right;
+}
+
+#error {
+    color: red,
 }

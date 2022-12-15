@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Project from "../../types/Project";
+import Project from "../../../types/Project";
 import {
   AUTH_ROUTES,
   AUTH_TOKEN_ATTRIBUTE,
@@ -12,11 +12,11 @@ import {
   PUBLIC_ROUTES,
   TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
   UNAUTHORIZED,
-} from "../../constants";
-import Loader from "../loader/Loader";
-import Form from "./Form";
-import SmallButton from "../button/SmallButton";
-import SectionService from "../../service/api/SectionService";
+} from "../../../constants";
+import Loader from "../../loader/Loader";
+import Form from "../core/Form";
+import SmallButton from "../../button/SmallButton";
+import SectionService from "../../../service/api/SectionService";
 
 const TeamsForm = () => {
   const [teams, setTeams] = useState<Project[]>([]);
@@ -83,7 +83,7 @@ const TeamsForm = () => {
         ))}
       </FormGroup>
       </Grid>
-      <Grid item style={{width: "100%"}} id="select-project-buttons">
+      <Grid item style={{width: "100%"}} id="buttons">
         <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back" />
         <SmallButton handleClick={handleClick} text="Select" />
       </Grid>

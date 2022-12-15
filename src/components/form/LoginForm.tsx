@@ -7,10 +7,8 @@ import { AUTH_TOKEN_ATTRIBUTE, AUTH_ROUTES, OK } from "../../constants";
 import api from "../../service/api/api";
 import LoginService from "../../service/api/LoginService";
 import { LoginRequest } from "../../types/requests/LoginRequest";
-import Form from "./Form";
+import Form from "./core/Form";
 import Loader from "../loader/Loader";
-
-import "./Form.css";
 
 const LoginForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);

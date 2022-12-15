@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import Grid from "@mui/material/Grid";
 
+import "./Form.css";
+
 export type FormProps = {
     header: string,
     content: ReactNode

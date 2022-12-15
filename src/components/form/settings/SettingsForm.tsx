@@ -1,11 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
-import LinkButton, { LinkButtonProps } from "../button/LinkButton";
+import LinkButton, { LinkButtonProps } from "../../button/LinkButton";
 import CircularProgress from "@mui/material/CircularProgress";
-import { AUTH_ROUTES } from "../../constants";
-
-import "./Form.css";
-import Form from "./Form";
+import { AUTH_ROUTES } from "../../../constants";
+import Form from "../core/Form";
 
 const SettingsForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);

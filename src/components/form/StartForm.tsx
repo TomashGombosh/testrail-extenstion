@@ -5,7 +5,7 @@ import LinkButton, { LinkButtonProps } from "../button/LinkButton";
 import Button from "../button/Button";
 import CircularProgress from "@mui/material/CircularProgress";
 import { AUTH_ROUTES, AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
-import Form from "./Form";
+import Form from "./core/Form";
 
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);

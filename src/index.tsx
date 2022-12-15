@@ -14,12 +14,15 @@ const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 
-const TokenForm = lazy(() => import("./components/form/TokenForm"));
+const TokenForm = lazy(() => import("./components/form/settings/TokenForm"));
 const StartForm = lazy(() => import("./components/form/StartForm"));
-const SettingsForm = lazy(() => import("./components/form/SettingsForm"));
-const ProjectsForm = lazy(() => import("./components/form/ProjectsForm"));
-const TeamsForm = lazy(() => import("./components/form/TeamsForm"));
-const WorkForm = lazy(() => import("./components/form/WorkForm"));
+const SettingsForm = lazy(() => import("./components/form/settings/SettingsForm"));
+const ProjectsForm = lazy(() => import("./components/form/settings/ProjectsForm"));
+const TeamsForm = lazy(() => import("./components/form/settings/TeamsForm"));
+const CreateSectionCases = lazy(() => import("./components/form/cases/CreateSectionCases"));
+const CopyCases = lazy(() => import("./components/form/cases/CopyCases"));
+const AddRefernceToCases = lazy(() => import("./components/form/cases/AddRefernceToCases"));
+const MergeCases = lazy(() => import("./components/form/cases/MergeCases"));
 
 const Main = () => {
   const renderAuthenticateRoute = (element: React.FunctionComponent) => (
@@ -49,13 +52,16 @@ const Main = () => {
           <Route path={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TEAMS}`} element={renderAuthenticateRoute(TeamsForm)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`} element={renderAuthenticateRoute(CreateSectionCases)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.CASES}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`} element={renderAuthenticateRoute(CopyCases)} />
         </Routes>
         <Routes>
-          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`} element={renderAuthenticateRoute(WorkForm)} />
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`} element={renderAuthenticateRoute(AddRefernceToCases)} />
+        </Routes>
+        <Routes>
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.MERGE}`} element={renderAuthenticateRoute(MergeCases)} />
         </Routes>
         <Routes>
           <Route path={AUTH_ROUTES.DASHBOARD} element={renderAuthenticateRoute(StartForm)} />

@@ -2,14 +2,12 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
-import Button from "../button/Button";
-import { StoreUserTestRailDataRequest } from "../../types/requests";
-import UserService from "../../service/api/UserService";
-import { AUTH_ROUTES, OK } from "../../constants";
-
-import "./Form.css";
-import Loader from "../loader/Loader";
-import Form from "./Form";
+import Button from "../../button/Button";
+import { StoreUserTestRailDataRequest } from "../../../types/requests";
+import UserService from "../../../service/api/UserService";
+import { AUTH_ROUTES, OK } from "../../../constants";
+import Loader from "../../loader/Loader";
+import Form from "../core/Form";
 
 const TokenForm = () => {
   const [isLoading] = useState<boolean>(false);
