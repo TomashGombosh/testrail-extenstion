@@ -35,7 +35,6 @@ const CopyCases = () => {
       currentWindow: true,
     };
     chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
-      console.log(tabs);
       const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
       chrome.tabs.sendMessage(
         currentTabId,
@@ -69,7 +68,7 @@ const CopyCases = () => {
         <Button handleClick={handleGetFromTestRail} text="Get from testrail"/>
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">
-        <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`)} text="Back"/>
+        <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`)} text="Back"/>
         <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`)} text="Next" disabled={casesIds === ""}/>
       </Grid>
     </>;

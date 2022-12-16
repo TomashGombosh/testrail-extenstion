@@ -16,12 +16,34 @@ const messagesFromReactAppListener = (message: ChromeMessage, sender: any, respo
     response(finalList.join(","));
   } else if (sender.id === chrome.runtime.id &&
     message.from === Sender.React &&
-    message.message === "get_url") {
-    response(window.location.href);
+    message.message === "redirect" &&
+    message.additional !== undefined) {
+    try {
+      window.location.href = message.additional;
+      // const addKeyButton = document.querySelector("#addToken a") as HTMLElement | null;
+      // addKeyButton?.click();
+      // document.querySelector("#userTokenName")?.setAttribute("value", "ChromeExtension");
+      // const generateKeyButton = document.querySelector("#userTokenGenerate") as HTMLElement | null;
+      // generateKeyButton?.click();
+      // const tokenField = document.querySelector("#userTokenCode strong");
+      // response(tokenField?.textContent);
+      // const confirmCreationButton = document.querySelector("#userTokenAdd") as HTMLElement | null;
+      // confirmCreationButton?.click();
+      response("success");
+    } catch (err) {
+      response(`Error: ${err}`);
+    }
   } else if (sender.id === chrome.runtime.id &&
-    message.from === Sender.React &&
-    message.message === "get_token") {
-
+  message.from === Sender.React &&
+  message.message === "click" &&
+  message.additional !== undefined) {
+    try {
+      const authTab = document.querySelector(message.additional) as HTMLElement | null;
+      authTab?.click();
+      response("success");
+    } catch (err) {
+      response(`Error: ${err}`);
+    }
   }
 };
 

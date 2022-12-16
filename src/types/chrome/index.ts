@@ -6,5 +6,6 @@ export enum Sender {
 
 export interface ChromeMessage {
     from: Sender,
-    message: any
+    message: any,
+    additional?: string
 }

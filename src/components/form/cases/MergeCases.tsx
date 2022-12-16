@@ -46,7 +46,6 @@ const CopyCases = () => {
       currentWindow: true,
     };
     chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
-      console.log(tabs);
       const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
       chrome.tabs.sendMessage(
         currentTabId,

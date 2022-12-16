@@ -66,7 +66,6 @@ const CreateSectionCases = () => {
         description: sectionName || "",
       };
       const sectionResponse = await SectionService.createSection(createSectionRequest);
-      console.log(sectionResponse.status);
       if (sectionResponse.status === OK) {
         const sectionId = sectionResponse.data.id;
         const request: UpdateTestCasesRequest = {
