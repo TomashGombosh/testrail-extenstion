@@ -14,6 +14,14 @@ const messagesFromReactAppListener = (message: ChromeMessage, sender: any, respo
     const list = Array.from(firstMatchList).map((el) => el.id.replaceAll(/^row-/g, "C"));
     const finalList = list.concat(Array.from(secondMatchList).map((el) => el.id.replaceAll(/^row-/g, "C")));
     response(finalList.join(","));
+  } else if (sender.id === chrome.runtime.id &&
+    message.from === Sender.React &&
+    message.message === "get_url") {
+    response(window.location.href);
+  } else if (sender.id === chrome.runtime.id &&
+    message.from === Sender.React &&
+    message.message === "get_token") {
+
   }
 };
 
