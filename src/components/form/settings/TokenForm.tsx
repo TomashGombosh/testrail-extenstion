@@ -52,7 +52,7 @@ const TokenForm = () => {
             setError(true);
             setHelperText("Incorrect url opened now");
           } else {
-            setUrl(`${response}`);
+            setUrl(response);
           }
         }
       );
@@ -79,7 +79,7 @@ const TokenForm = () => {
             setError(true);
             setHelperText("Incorrect url");
           } else {
-            setUrl(`${response}`);
+            setUrl(response);
           }
         }
       );
@@ -107,7 +107,7 @@ const TokenForm = () => {
       element: (<TextField
         type="text"
         placeholder="Url"
-        onChange={(e) => setToken(e.target.value)}
+        onChange={(e) => setUrl(e.target.value)}
         value={token}
         error={error}
         helperText={error ? helperText : ""}
@@ -118,7 +118,7 @@ const TokenForm = () => {
       element: (<TextField
         type="password"
         placeholder="Token"
-        onChange={(e) => setUrl(e.target.value)}
+        onChange={(e) => setToken(e.target.value)}
         value={url}
         error={error}
         helperText={error ? helperText : ""}
