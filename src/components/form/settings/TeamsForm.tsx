@@ -10,7 +10,7 @@ import {
   AUTH_TOKEN_ATTRIBUTE,
   OK,
   PUBLIC_ROUTES,
-  TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
+  TEST_RAIL_PROJECT_ATTRIBUTE,
   UNAUTHORIZED,
 } from "../../../constants";
 import Loader from "../../loader/Loader";
@@ -30,7 +30,10 @@ const TeamsForm = () => {
 
   useEffect(() => {
     const getTeams = async () => {
-      const projectId = localStorage.getItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE);
+      const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+      const projectId = project !== null
+        ? JSON.parse(project).id
+        : null;
       if (projectId !== null) {
         const response = await SectionService.getTeams(projectId);
         if (response.status === OK) {
@@ -60,7 +63,7 @@ const TeamsForm = () => {
 
   const handleClick = () => {
     const arrayToString = projectIds.join(",");
-    localStorage.setItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE, arrayToString);
+    localStorage.setItem(TEST_RAIL_PROJECT_ATTRIBUTE, arrayToString);
     navigate(AUTH_ROUTES.SETTINGS);
   };
 

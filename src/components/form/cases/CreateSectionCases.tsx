@@ -7,7 +7,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES, TEST_RAIL_SECTION_NAME_ATTRIBUTE, TEST_RAIL_PROJECT_IDS_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES, TEST_RAIL_SECTION_NAME_ATTRIBUTE, TEST_RAIL_PROJECT_ATTRIBUTE } from "../../../constants";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -43,7 +43,7 @@ const CreateSectionCases = () => {
   });
 
   const handleNext = () => {
-    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE);
+    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
     if (projectId === null) {
       navigate(AUTH_ROUTES.SETTINGS);
     } else {

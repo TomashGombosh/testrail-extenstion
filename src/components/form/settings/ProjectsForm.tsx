@@ -11,7 +11,7 @@ import {
   AUTH_TOKEN_ATTRIBUTE,
   OK,
   PUBLIC_ROUTES,
-  TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
+  TEST_RAIL_PROJECT_ATTRIBUTE,
   UNAUTHORIZED,
 } from "../../../constants";
 import Loader from "../../loader/Loader";
@@ -55,8 +55,8 @@ const ProjectsForm = () => {
   };
 
   const handleClick = () => {
-    localStorage.setItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
-      JSON.stringify(projects.filter((p: Project) => projectIds.includes(`${p.id}`))));
+    localStorage.setItem(TEST_RAIL_PROJECT_ATTRIBUTE,
+      JSON.stringify(projects.find((p: Project) => projectIds.includes(`${p.id}`))));
     navigate(AUTH_ROUTES.SETTINGS);
   };
 

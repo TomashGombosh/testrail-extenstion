@@ -11,7 +11,7 @@ import { AUTH_ROUTES,
   TEST_RAIL_REFERENCES_ATTRIBUTE,
   TEST_RAIL_CASES_IDS_ATTRIBUTE,
   TEST_RAIL_SECTION_NAME_ATTRIBUTE,
-  TEST_RAIL_PROJECT_IDS_ATTRIBUTE,
+  TEST_RAIL_PROJECT_ATTRIBUTE,
 } from "../../../constants";
 import { CreateSectionRequest, UpdateTestCasesRequest } from "../../../types/requests";
 import SectionService from "../../../service/api/SectionService";
@@ -53,7 +53,7 @@ const CreateSectionCases = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_IDS_ATTRIBUTE);
+    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
     const sectionName = localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
     const casesIds = localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE)?.replaceAll(/C/g, "").split(",") || [];
 
