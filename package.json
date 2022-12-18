@@ -28,7 +28,8 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "craco build",
-    "test": "jest",
+    "test": "jest --passWithNoTests",
+    "test-ui": "npx playwright test",
     "eject": "react-scripts eject",
     "lint": "eslint src/**/*.tsx src/*.tsx src/**/**/*.tsx src/*.ts src/**/*.ts src/**/**/*.ts"
   },
@@ -51,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.29.0",
     "@types/chrome": "0.0.200",
     "@types/react": "18.0.26",
     "@types/react-router-dom": "5.3.3",
