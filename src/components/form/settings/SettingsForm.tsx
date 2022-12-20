@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Grid from "@mui/material/Grid";
 import LinkButton, { LinkButtonProps } from "../../button/LinkButton";
-import CircularProgress from "@mui/material/CircularProgress";
 import { AUTH_ROUTES } from "../../../constants";
 import Form from "../core/Form";
+import Loader from "../../loader/Loader";
 
 const SettingsForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -35,7 +35,7 @@ const SettingsForm = () => {
   ];
 
   const content = isLoading
-    ? <CircularProgress />
+    ? <Loader />
     : (
       <>
         {buttons.map((button: LinkButtonProps, index) => (
@@ -45,7 +45,7 @@ const SettingsForm = () => {
       </>
     );
   return (
-    <Form content={content} header="Main menu" />
+    <Form content={content} header="Settings menu" />
   );
 };
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Tooltip, { TooltipProps } from "@mui/material/Tooltip";
@@ -8,7 +8,7 @@ import IconButton from "@mui/material/IconButton";
 import SmallButton from "../../button/SmallButton";
 import { StoreUserTestRailDataRequest } from "../../../types/requests";
 import UserService from "../../../service/api/UserService";
-import { AUTH_ROUTES, OK, STATE_ROUTE_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES, OK } from "../../../constants";
 import Loader from "../../loader/Loader";
 import Form from "../core/Form";
 
@@ -20,10 +20,6 @@ const TokenForm = () => {
   const [tokenError, setTokenError] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>("");
   const navigate = useNavigate();
-
-  useEffect(() => {
-    localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TOKEN}`);
-  }, []);
 
   const handleClick = async () => {
     if (url !== undefined && token !== undefined) {

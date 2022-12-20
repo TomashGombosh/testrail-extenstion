@@ -17,6 +17,7 @@ import Loader from "../../loader/Loader";
 import Form from "../core/Form";
 import SmallButton from "../../button/SmallButton";
 import SectionService from "../../../service/api/SectionService";
+import ErrorForm from "../core/ErrorForm";
 
 const TeamsForm = () => {
   const [teams, setTeams] = useState<Project[]>([]);
@@ -91,15 +92,10 @@ const TeamsForm = () => {
         <SmallButton handleClick={handleClick} text="Select" />
       </Grid>
     </Grid>);
-  const errorContent =
-    <Grid item>
-      <span>{error}</span>
-      <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back" />
-    </Grid>;
 
   return error === ""
     ? <Form header="Select Team" content={content}/>
-    : <Form header="Something went wrong" content={errorContent}/>;
+    : <ErrorForm errorMessage={error}/>;
 };
 
 export default TeamsForm;

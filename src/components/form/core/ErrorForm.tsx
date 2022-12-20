@@ -5,7 +5,7 @@ import CustomButton from "../../button/Button";
 import LinkButton from "../../button/LinkButton";
 export type ErrorProps = {
     errorMessage: string,
-    retryFunction(): void
+    retryFunction?(): void
 }
 
 const ErrorForm = ({errorMessage, retryFunction}: ErrorProps) => {
@@ -14,7 +14,7 @@ const ErrorForm = ({errorMessage, retryFunction}: ErrorProps) => {
       <span id="error">{errorMessage}</span>
     </Grid>;
   <Grid item>
-    <CustomButton disabled={true} handleClick={retryFunction} text="Retry"/>
+    <CustomButton disabled={true} handleClick={retryFunction || (() => console.log("Click"))} text="Retry"/>
   </Grid>;
   <Grid item>
     <LinkButton link="/" text="Back"/>
