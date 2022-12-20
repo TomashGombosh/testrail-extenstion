@@ -44,7 +44,7 @@ const CopyCases = () => {
             setError(true);
             setHelperText("No test cases selected in the testrail");
           } else {
-            setCasesIds(`${casesIds},${response}`);
+            setCasesIds(`${casesIds !== "" ? `${casesIds},` : ""}${response}`);
           }
         }
       );
