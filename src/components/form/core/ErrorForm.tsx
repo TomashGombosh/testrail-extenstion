@@ -2,6 +2,7 @@ import React from "react";
 import Grid from "@mui/material/Grid";
 import Form from "./Form";
 import CustomButton from "../../button/Button";
+import LinkButton from "../../button/LinkButton";
 export type ErrorProps = {
     errorMessage: string,
     retryFunction(): void
@@ -14,6 +15,9 @@ const ErrorForm = ({errorMessage, retryFunction}: ErrorProps) => {
     </Grid>;
   <Grid item>
     <CustomButton disabled={true} handleClick={retryFunction} text="Retry"/>
+  </Grid>;
+  <Grid item>
+    <LinkButton link="/" text="Back"/>
   </Grid>;
 
   return <Form header="Something went wrong" content={errorContent}/>;
