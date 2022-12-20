@@ -4,13 +4,13 @@ import Grid from "@mui/material/Grid";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Project from "../../../types/Project";
 import {
   AUTH_ROUTES,
   AUTH_TOKEN_ATTRIBUTE,
   OK,
   PUBLIC_ROUTES,
   TEST_RAIL_PROJECT_ATTRIBUTE,
+  TEST_RAIL_TEAM_SECTION,
   UNAUTHORIZED,
 } from "../../../constants";
 import Loader from "../../loader/Loader";
@@ -18,9 +18,10 @@ import Form from "../core/Form";
 import SmallButton from "../../button/SmallButton";
 import SectionService from "../../../service/api/SectionService";
 import ErrorForm from "../core/ErrorForm";
+import { Team } from "../../../types/Team";
 
 const TeamsForm = () => {
-  const [teams, setTeams] = useState<Project[]>([]);
+  const [teams, setTeams] = useState<Team[]>([]);
   const [isLoading, setLoading] = useState<boolean>(true);
   const [checkedState, setCheckedState] = useState<boolean[]>(
     new Array(teams.length).fill(false)
@@ -38,7 +39,7 @@ const TeamsForm = () => {
       if (projectId !== null) {
         const response = await SectionService.getTeams(projectId);
         if (response.status === OK) {
-          setTeams(response.data.projects);
+          setTeams(response.data);
           setLoading(false);
         } else if (response.status === UNAUTHORIZED) {
           localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
@@ -63,8 +64,8 @@ const TeamsForm = () => {
   };
 
   const handleClick = () => {
-    const arrayToString = teamsSectionIds.join(",");
-    localStorage.setItem(TEST_RAIL_PROJECT_ATTRIBUTE, arrayToString);
+    localStorage.setItem(TEST_RAIL_TEAM_SECTION,
+      JSON.stringify(teams.find((t: Team) => teamsSectionIds.includes(`${t.id}`))));
     navigate(AUTH_ROUTES.SETTINGS);
   };
 
@@ -79,8 +80,7 @@ const TeamsForm = () => {
               <Checkbox
                 id={`${team.id}`}
                 checked={checkedState[team.id]}
-                onChange={(e) => handleOnChange(e)}
-                disabled={team.name !== "Sandbox"} />
+                onChange={(e) => handleOnChange(e)}/>
             )}
             label={team.name}
             className="text form-controll" />

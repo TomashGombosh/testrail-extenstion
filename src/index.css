@@ -1,6 +1,6 @@
 body {
-  border-radius: 10px;
   background-color: rgb(231, 245, 214);
+  border-radius: 10px 0 10px 10px;
   width: 250px;
   height: 450px;
   margin: 0;

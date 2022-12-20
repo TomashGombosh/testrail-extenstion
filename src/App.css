@@ -1,7 +1,7 @@
 .extension {
   width: 250px;
-  height: 500px;
-  border-radius: 10px;
+  height: 400px;
+  border-radius: 10px 0 10px 10px;
 }
 
 [class*='MuiGrid-root'].browser {
@@ -29,7 +29,7 @@
 
 .content {
   min-height: 350px;
-  max-height: 450px;
+  height: 400px;
   width: 250px;
 }
 
@@ -43,23 +43,6 @@
 
 label.text > span {
   font-family: 'Noto Serif Khojki', serif;
-}
-
-.form {
-  width: 250px;
-  height: 250px;
-}
-
-.form-item {
-  padding: 10px;
-}
-
-.form-item {
-  padding: 8px;
-}
-
-.work-screen-form-item {
-  padding: 5px;
 }
 
 .MuiButton-root.MuiButton-contained {

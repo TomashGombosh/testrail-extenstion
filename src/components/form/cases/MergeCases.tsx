@@ -4,16 +4,16 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import { ChromeMessage, Sender } from "../../../types/chrome";
 import Loader from "../../loader/Loader";
-import Button from "../../button/Button";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES, TEST_RAIL_CASES_IDS_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES } from "../../../constants";
 import CasesService from "../../../service/api/CasesService";
 import { MergeTestCasesRequest } from "../../../types/requests";
 import { OK } from "../../../constants/statusCodes";
 import ErrorForm from "../core/ErrorForm";
+import autoGenerate from "../../autoGenerate/AutoGenerate";
 
-const CopyCases = () => {
+const MergeCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [casesIds, setCasesIds] = useState<string>("");
   const [error, setError] = useState<boolean>(false);
@@ -33,7 +33,16 @@ const CopyCases = () => {
       setError(false);
     }
     setCasesIds(value.replace(/ /g, ","));
-    localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, value.replace(/ /g, ","));
+  };
+
+  const handleResponseFromChrome = (response: string) => {
+    if (response === "") {
+      setError(true);
+      setHelperText("No test cases selected in the testrail. Please check the boxes");
+    } else {
+      const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
+      setCasesIds(`${caseIdsText}${response}`);
+    }
   };
 
   const handleGetFromTestRail = () => {
@@ -50,14 +59,7 @@ const CopyCases = () => {
       chrome.tabs.sendMessage(
         currentTabId,
         message,
-        (response) => {
-          if (response === "") {
-            setError(true);
-            setHelperText("No test cases selected in the testrail");
-          } else {
-            setCasesIds(`${casesIds},${response}`);
-          }
-        }
+        (response) => handleResponseFromChrome(response)
       );
     });
   };
@@ -89,10 +91,8 @@ const CopyCases = () => {
           size="small"
           error={error}
           helperText={error ? helperText : ""}
+          InputProps={autoGenerate(handleGetFromTestRail, "bottom-end", false)}
         />
-      </Grid>
-      <Grid item className="form-item">
-        <Button handleClick={handleGetFromTestRail} text="Get from testrail"/>
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">
         <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`)} text="Back"/>
@@ -104,4 +104,4 @@ const CopyCases = () => {
     : <Form header="Select cases to merge" content={content} />;
 };
 
-export default CopyCases;
+export default MergeCases;
