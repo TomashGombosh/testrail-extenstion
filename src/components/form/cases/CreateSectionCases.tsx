@@ -43,7 +43,10 @@ const CreateSectionCases = () => {
   });
 
   const handleNext = () => {
-    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+    const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+    const projectId = project !== null
+      ? JSON.parse(project).id
+      : null;
     if (projectId === null) {
       navigate(AUTH_ROUTES.SETTINGS);
     } else {

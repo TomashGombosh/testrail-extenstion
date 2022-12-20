@@ -53,7 +53,10 @@ const CreateSectionCases = () => {
 
   const handleSubmit = async () => {
     setLoading(true);
-    const projectId = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+    const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+    const projectId = project !== null
+      ? JSON.parse(project).id
+      : null;
     const sectionName = localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
     const casesIds = localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE)?.replaceAll(/C/g, "").split(",") || [];
 

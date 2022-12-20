@@ -24,7 +24,7 @@ const TeamsForm = () => {
   const [checkedState, setCheckedState] = useState<boolean[]>(
     new Array(teams.length).fill(false)
   );
-  const [projectIds, setProjectIds] = useState<string[]>([]);
+  const [teamsSectionIds, setTeamsSectionIds] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
@@ -55,14 +55,14 @@ const TeamsForm = () => {
   }, []);
 
   const handleOnChange = (position: any) => {
-    setProjectIds(() => [position.target.id]);
+    setTeamsSectionIds(() => [position.target.id]);
     const updatedCheckedState = checkedState.map((item, index) => (index === position ? !item : item));
 
     setCheckedState(updatedCheckedState);
   };
 
   const handleClick = () => {
-    const arrayToString = projectIds.join(",");
+    const arrayToString = teamsSectionIds.join(",");
     localStorage.setItem(TEST_RAIL_PROJECT_ATTRIBUTE, arrayToString);
     navigate(AUTH_ROUTES.SETTINGS);
   };
