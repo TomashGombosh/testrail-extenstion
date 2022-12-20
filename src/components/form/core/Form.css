@@ -1,0 +1,59 @@
+.form {
+    width: 250px;
+    height: 250px;
+}
+
+.form h2 {
+    padding: 2px
+}
+
+.form-title {
+    width: 100%;
+    min-height: 50px;
+    max-height: 75px;
+    text-align: center;
+    border-bottom: 2px rgb(25, 191, 75) solid;
+    border-radius: 0 0 5px 5px;
+}
+
+.form-content {
+    width: 250px;
+    min-height: 275px;
+    max-height: 300px;
+}
+
+h3 {
+    padding: 5px
+}
+
+.small {
+    width: 90px;
+}
+
+.form-controll {
+    width: 250px;
+    height: 30px;
+    padding: 7px;
+}
+
+.form-item {
+    padding: 8px;
+}
+
+.form-controll {
+    width: 250px;
+    height: 30px;
+    padding: 7px;
+}
+
+#buttons>button:first-child {
+    float: left;
+}
+
+#buttons>button:last-child {
+    float: right;
+}
+
+#error {
+    color: red,
+}

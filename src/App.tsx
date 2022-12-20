@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from 'react';
-import './App.css';
-import { ChromeMessage, Sender } from "./types";
+import React, { ReactNode, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import Grid from "@mui/material/Grid";
+import "./App.css";
+import { AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "./constants";
+import api from "./service/api/api";
+import Loader from "./components/loader/Loader";
 
-const App = () => {
-  const [responseFromContent, setResponseFromContent] = useState<string>('');
+export type MainProps = {
+  children: ReactNode,
+  isShowHeader: boolean
+}
 
-  const redirect = () => {
-    const message: ChromeMessage = {
-        from: Sender.React,
-        message: "redirect",
+const App = (props: MainProps) => {
+  const navigate = useNavigate();
+  const [isLoading, setLoading] = useState<boolean>(true);
+
+  useEffect(() => {
+    if (localStorage.getItem(AUTH_TOKEN_ATTRIBUTE) === null) {
+      navigate(PUBLIC_ROUTES.LOGIN);
+    } else {
+      api.defaults.headers.Authorization = `Bearer ${localStorage.getItem(AUTH_TOKEN_ATTRIBUTE)}`;
     }
-    const queryInfo: chrome.tabs.QueryInfo = {
-        active: true,
-        currentWindow: true
-    };
-
-    chrome.tabs && chrome.tabs.query(queryInfo, tabs => {
-        const currentTabId = tabs[0]?.id; 
-        if(currentTabId) {
-        chrome.tabs.sendMessage(
-            currentTabId,
-            message,
-            (response) => {
-              setResponseFromContent(response);
-            });
-          }
-    });
-};
+    setLoading(false);
+  }, [navigate]);
 
   return (
-    <div>
-      <h3>Welcome to the Test rail support application</h3>
-      <div>
-        <button onClick={redirect}>Click me</button>
-        {/* <span>{responseFromContent}</span> */}
-      </div>
-    </div>
+    <Grid container direction="row" alignItems="center" className="extension">
+      <Grid item className="header">
+        {props.isShowHeader && (<h2>Welcome to the TestRail extension</h2>)}
+      </Grid>
+      <Grid item className="content">
+        {isLoading ? <Loader/> : props.children}
+      </Grid>
+      <Grid item className="footer">
+        © 2022 iDeals. All rights reserved.
+      </Grid>
+    </Grid>
 
   );
-}
+};
 
 export default App;

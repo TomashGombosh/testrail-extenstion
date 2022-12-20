@@ -1,38 +1,75 @@
-.App {
-  text-align: center;
+.extension {
+  width: 250px;
+  height: 500px;
+  border-radius: 10px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+[class*='MuiGrid-root'].browser {
+  margin-left: auto;
+  margin-right: auto;
+  width: 250px;
+  height: 500px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.debug {
+  border: 2px black solid;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.header { 
+  background-color: rgb(34, 177, 34);
+  min-height: 20px;
+  width: 100%;
+  max-height: 100px;
+  border-radius: 10px 0 0 0;
 }
 
-.App-link {
-  color: #61dafb;
+.header > h2 {
+  padding: 5px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.content {
+  min-height: 350px;
+  max-height: 450px;
+  width: 250px;
 }
+
+.footer {
+  color:aliceblue;
+  background-color: rgb(34, 177, 34);
+  height: 30px;
+  width: 250px;
+  border-radius: 0 0 10px 10px;
+}
+
+label.text > span {
+  font-family: 'Noto Serif Khojki', serif;
+}
+
+.form {
+  width: 250px;
+  height: 250px;
+}
+
+.form-item {
+  padding: 10px;
+}
+
+.form-item {
+  padding: 8px;
+}
+
+.work-screen-form-item {
+  padding: 5px;
+}
+
+.MuiButton-root.MuiButton-contained {
+  text-transform: none;
+  background-color: rgb(37, 209, 37);
+  width: 175px;
+}
+
+.MuiButton-root.MuiButton-contained:hover {
+  text-transform: none;
+  background-color: rgb(0, 131, 0);
+}
+

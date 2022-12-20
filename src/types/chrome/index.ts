@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 export enum Sender {
     React,
     Content
@@ -5,5 +6,6 @@ export enum Sender {
 
 export interface ChromeMessage {
     from: Sender,
-    message: any
+    message: any,
+    additional?: string
 }
