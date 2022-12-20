@@ -38,6 +38,7 @@ const CopyCases = () => {
     } else {
       const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
       setCasesIds(`${caseIdsText}${response}`);
+      localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, caseIdsText);
     }
   };
 
