@@ -1,8 +1,3 @@
-// Test rail locators
-export const USER_DROP_DOWN = "#navigation-user";
-export const MY_SETTINGS = "#navigation-user-settings";
-export const API_KEYS = "tab4";
-
 // API
 export const TEST_RAIL_MIDDLE_WARE_URL = "https://testrail-middleware.afj-solution.com";
 
