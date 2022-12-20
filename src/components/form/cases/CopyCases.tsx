@@ -21,8 +21,24 @@ const CopyCases = () => {
   }, []);
 
   const handleCasesId = (e: any) => {
-    setCasesIds(e.target.value.replace(/ /g, ","));
-    localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, e.target.value.replace(/ /g, ","));
+    const value = e.target.value;
+    if (value === "") {
+      setError(true);
+    } else {
+      setError(false);
+    }
+    setCasesIds(value.replace(/ /g, ","));
+    localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, value.replace(/ /g, ","));
+  };
+
+  const handleResponseFromChrome = (response: string) => {
+    if (response === "") {
+      setError(true);
+      setHelperText("No test cases selected in the testrail. Please check the boxes");
+    } else {
+      const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
+      setCasesIds(`${caseIdsText}${response}`);
+    }
   };
 
   const handleGetFromTestRail = () => {
@@ -39,14 +55,7 @@ const CopyCases = () => {
       chrome.tabs.sendMessage(
         currentTabId,
         message,
-        (response) => {
-          if (response === "") {
-            setError(true);
-            setHelperText("No test cases selected in the testrail");
-          } else {
-            setCasesIds(`${casesIds !== "" ? `${casesIds},` : ""}${response}`);
-          }
-        }
+        (response) => handleResponseFromChrome(response)
       );
     });
   };

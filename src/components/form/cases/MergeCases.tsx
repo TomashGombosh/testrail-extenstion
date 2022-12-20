@@ -6,7 +6,7 @@ import { ChromeMessage, Sender } from "../../../types/chrome";
 import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES, TEST_RAIL_CASES_IDS_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES } from "../../../constants";
 import CasesService from "../../../service/api/CasesService";
 import { MergeTestCasesRequest } from "../../../types/requests";
 import { OK } from "../../../constants/statusCodes";
@@ -33,7 +33,16 @@ const MergeCases = () => {
       setError(false);
     }
     setCasesIds(value.replace(/ /g, ","));
-    localStorage.setItem(TEST_RAIL_CASES_IDS_ATTRIBUTE, value.replace(/ /g, ","));
+  };
+
+  const handleResponseFromChrome = (response: string) => {
+    if (response === "") {
+      setError(true);
+      setHelperText("No test cases selected in the testrail. Please check the boxes");
+    } else {
+      const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
+      setCasesIds(`${caseIdsText}${response}`);
+    }
   };
 
   const handleGetFromTestRail = () => {
@@ -50,14 +59,7 @@ const MergeCases = () => {
       chrome.tabs.sendMessage(
         currentTabId,
         message,
-        (response) => {
-          if (response === "") {
-            setError(true);
-            setHelperText("No test cases selected in the testrail");
-          } else {
-            setCasesIds(`${casesIds !== "" ? `${casesIds},` : ""}${response}`);
-          }
-        }
+        (response) => handleResponseFromChrome(response)
       );
     });
   };
