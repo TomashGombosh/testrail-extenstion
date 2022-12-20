@@ -3,9 +3,9 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import LinkButton, { LinkButtonProps } from "../button/LinkButton";
 import Button from "../button/Button";
-import CircularProgress from "@mui/material/CircularProgress";
 import { AUTH_ROUTES, AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
 import Form from "./core/Form";
+import Loader from "../loader/Loader";
 
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -45,12 +45,12 @@ const StartForm = () => {
   ];
 
   const content = isLoading
-    ? <CircularProgress />
+    ? <Loader />
     : (
       <>
         {buttons.map((button: LinkButtonProps, index) => (
           <Grid item className="form-item" key={index}>
-            <LinkButton link={button.link } text={button.text} disabled={button.disabled}/>
+            <LinkButton link={button.link} text={button.text} disabled={button.disabled}/>
           </Grid>))}
         <Grid item className="form-item">
           <Button handleClick={handleLogout} text="Logout"/>

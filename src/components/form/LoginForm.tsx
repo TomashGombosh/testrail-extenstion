@@ -32,7 +32,7 @@ const LoginForm = () => {
     const response = await LoginService.login(request);
     if (response.status === OK) {
       const { token } = response.data;
-      localStorage.setItem(AUTH_TOKEN_ATTRIBUTE, response.data.token);
+      localStorage.setItem(AUTH_TOKEN_ATTRIBUTE, token);
       api.defaults.headers.Authorization = `Bearer ${token}`;
       navigate(AUTH_ROUTES.DASHBOARD);
     }
