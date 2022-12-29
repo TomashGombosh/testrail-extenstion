@@ -17,6 +17,7 @@ import { CreateSectionRequest, UpdateTestCasesRequest } from "../../../types/req
 import SectionService from "../../../service/api/SectionService";
 import { OK } from "../../../constants/statusCodes";
 import CasesService from "../../../service/api/CasesService";
+import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -27,6 +28,7 @@ const CreateSectionCases = () => {
 
   useEffect(() => {
     setLoading(false);
+    localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`);
   }, []);
 
   const handleClear = () => {
@@ -83,6 +85,7 @@ const CreateSectionCases = () => {
           localStorage.removeItem(TEST_RAIL_CASES_IDS_ATTRIBUTE);
           localStorage.removeItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
           localStorage.removeItem(TEST_RAIL_REFERENCES_ATTRIBUTE);
+          localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
         }
       }
     }

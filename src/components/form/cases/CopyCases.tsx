@@ -8,6 +8,7 @@ import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
 import { AUTH_ROUTES, TEST_RAIL_CASES_IDS_ATTRIBUTE } from "../../../constants";
 import autoGenerate from "../../autoGenerate/AutoGenerate";
+import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
 
 const CopyCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -18,6 +19,7 @@ const CopyCases = () => {
 
   useEffect(() => {
     setLoading(false);
+    localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`);
   }, []);
 
   const handleCasesId = (e: any) => {
@@ -45,7 +47,7 @@ const CopyCases = () => {
   const handleGetFromTestRail = () => {
     const message: ChromeMessage = {
       from: Sender.React,
-      message: "get_selected",
+      message: "get_selected_cases",
     };
     const queryInfo: chrome.tabs.QueryInfo = {
       active: true,

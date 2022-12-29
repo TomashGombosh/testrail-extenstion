@@ -8,6 +8,7 @@ import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
 import { AUTH_ROUTES, TEST_RAIL_SECTION_NAME_ATTRIBUTE, TEST_RAIL_PROJECT_ATTRIBUTE } from "../../../constants";
+import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -18,6 +19,7 @@ const CreateSectionCases = () => {
 
   useEffect(() => {
     setLoading(false);
+    localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`);
   }, []);
 
   const handleClear = () => {
@@ -54,6 +56,11 @@ const CreateSectionCases = () => {
     }
   };
 
+  const handleBack = () => {
+    localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
+    navigate(AUTH_ROUTES.DASHBOARD);
+  };
+
   const content = isLoading
     ? <Loader/>
     : <>
@@ -69,7 +76,7 @@ const CreateSectionCases = () => {
         />
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">
-        <SmallButton handleClick={() => navigate(AUTH_ROUTES.DASHBOARD)} text="Back"/>
+        <SmallButton handleClick={handleBack} text="Back"/>
         <SmallButton handleClick={handleNext} text="Next" disabled={sectionName === ""}/>
       </Grid>
     </>;
