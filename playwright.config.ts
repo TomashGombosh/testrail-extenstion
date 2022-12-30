@@ -10,7 +10,7 @@ const config: PlaywrightTestConfig = {
   workers: process.env.CI ? 1 : undefined,
   reporter: "html",
   use: {
-    headless: process.env.CI !== undefined,
+    headless: !!process.env.CI,
     actionTimeout: 0,
     trace: "on-first-retry",
     video: "on",
