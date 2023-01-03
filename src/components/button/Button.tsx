@@ -11,7 +11,8 @@ const CustomButton = (props: ButtonProps) =>
   (<Button
     onClick={props.handleClick}
     disabled={props.disabled}
-    variant="contained">
+    variant="contained"
+    data-testid={props.text.replaceAll(/ /g, "-").toLowerCase()}>
     {props.text}
   </Button>);
 

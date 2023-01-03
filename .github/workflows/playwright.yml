@@ -6,11 +6,16 @@ jobs:
   test:
     timeout-minutes: 60
     runs-on: ubuntu-latest
+    env:
+      USER_NAME: ${{ secrets.USER_NAME }}    
+      USER_KEY: ${{ secrets.USER_KEY }}   
     steps:
     - uses: actions/checkout@v3
     - uses: actions/setup-node@v3
       with:
         node-version: 16
+    - name: Install xvfb
+      run: sudo apt-get install xvfb
     - name: Install dependencies
       run: npm install        
     - name: Build extenstion
@@ -18,7 +23,7 @@ jobs:
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
-      run: npx playwright test
+      run: xvfb-run --auto-servernum npx playwright test
     - uses: actions/upload-artifact@v3
       if: always()
       with:

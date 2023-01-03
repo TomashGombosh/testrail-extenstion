@@ -6,6 +6,7 @@ import Button from "../button/Button";
 import { AUTH_ROUTES, AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
 import Form from "./core/Form";
 import Loader from "../loader/Loader";
+import { STATE_ROUTE_ATTRIBUTE } from "../../constants/index";
 
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -13,6 +14,10 @@ const StartForm = () => {
 
   useEffect(() => {
     setLoading(false);
+    const route = localStorage.getItem(STATE_ROUTE_ATTRIBUTE);
+    if (route !== null) {
+      navigate(route);
+    }
   }, [isLoading]);
 
   const handleLogout = () => {

@@ -10,11 +10,11 @@ export type LinkButtonProps = {
 
 const LinkButton = (props: LinkButtonProps) => (
   <Button
-    data-testid={props.text.toLowerCase()}
     disabled={props.disabled}
     component={Link}
     to={props.link}
-    variant="contained">
+    variant="contained"
+    data-testid={props.text.replaceAll(/ /g, "-").toLowerCase()}>
     {props.text}
   </Button>);
 

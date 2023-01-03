@@ -3,11 +3,12 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 const config: PlaywrightTestConfig = {
   testDir: "./test",
   expect: {
-    timeout: 5000,
+    timeout: 10000,
   },
+  timeout: 120000,
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : 1,
   reporter: "html",
   use: {
     actionTimeout: 0,
@@ -15,7 +16,6 @@ const config: PlaywrightTestConfig = {
     video: "on",
     screenshot: "only-on-failure",
   },
-
   projects: [
     {
       name: "chromium",

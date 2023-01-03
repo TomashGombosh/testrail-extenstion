@@ -2,9 +2,10 @@ export type UpdateTestCasesRequest = {
     projectId: string;
     sectionId: string;
     casesIds: string[];
-    references: string
+    references: string;
 }
 
 export type MergeTestCasesRequest = {
-    casesIds: string[];
+    casesIds?: string[];
+    sectionId?: string;
 }

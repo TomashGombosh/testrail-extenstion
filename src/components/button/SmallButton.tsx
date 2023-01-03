@@ -12,7 +12,8 @@ const SmallButton = (props: ButtonProps) =>
     style={{width: "50px", margin: "auto"}}
     onClick={props.handleClick}
     disabled={props.disabled}
-    variant="contained">
+    variant="contained"
+    data-testid={props.text.replaceAll(/ /g, "-").toLowerCase()}>
     {props.text}
   </Button>);
 
