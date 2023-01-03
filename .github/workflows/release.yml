@@ -13,10 +13,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
     steps:
     - name: Checkout code
-      uses: actions/checkout@v3
-    - name: Get tag name
-      id: tagName
-      run: echo "tag=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT      
+      uses: actions/checkout@v3 
     - name: Setup node
       uses: actions/setup-node@master
       with:
@@ -31,7 +28,7 @@ jobs:
         sudo apt-get install jq curl
         result=$(curl -X POST https://api.github.com/repos/TomashGombosh/testrail-extenstion/releases/generate-notes \
         -H "Authorization:token $GITHUB_TOKEN" \
-         -d '{"tag_name": "${{ steps.tagName.outputs.tag }},"target_commitish": "master"}'\
+         -d '{"tag_name": "${{github.ref_name}}","target_commitish": "master"}'\
         | jq .body)
         echo "$result" | sed -r 's/["]+//g' > body.md
         zip -r build.zip build
