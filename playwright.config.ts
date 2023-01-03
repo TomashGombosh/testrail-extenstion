@@ -3,7 +3,7 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 const config: PlaywrightTestConfig = {
   testDir: "./test",
   expect: {
-    timeout: 20000,
+    timeout: 10000,
   },
   timeout: 120000,
   fullyParallel: true,
