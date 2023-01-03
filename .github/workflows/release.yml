@@ -33,8 +33,7 @@ jobs:
         -H "Authorization:token $GITHUB_TOKEN" \
          -d '{"tag_name": "${{ steps.tagName.outputs.tag }},"target_commitish": "master"}'\
         | jq .body)
-        file=$($result | sed 's/^|\(.*\)|$/\1/')
-        cat $file > body.md
+        echo $result>body.md
         zip -r build.zip build
     - uses: actions/upload-artifact@v3
       if: always()
