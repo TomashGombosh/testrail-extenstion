@@ -103,6 +103,7 @@ const CreateSectionCases = () => {
           error={error}
           helperText={error ? helperText : ""}
           InputProps={clearField()}
+          data-testid="references"
         />
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">

@@ -147,6 +147,7 @@ const MergeCases = () => {
             value={mergeType}
             label="Merge type"
             onChange={handleChange}
+            data-testid="select-type-of-merge"
           >
             <MenuItem value={0}>None</MenuItem>
             <MenuItem value={10}>Case</MenuItem>
@@ -163,6 +164,7 @@ const MergeCases = () => {
           error={error}
           helperText={error ? helperText : ""}
           InputProps={autoGenerate(handleGetFromTestRailCasesId, "bottom-end", false)}
+          data-testid="merge-cases-ids"
         />
       </Grid>}
       {showSection && <Grid item className="form-item">
@@ -174,6 +176,7 @@ const MergeCases = () => {
           error={error}
           helperText={error ? helperText : ""}
           InputProps={autoGenerate(handleGetFromTestRailSectionId, "bottom-end", false)}
+          data-testid="merge-section-id"
         />
       </Grid>}
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">

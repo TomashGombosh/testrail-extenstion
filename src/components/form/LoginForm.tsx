@@ -41,13 +41,26 @@ const LoginForm = () => {
 
   const content: ReactNode = isLoading
     ? <Loader />
-    : (<><Grid item className="form-item">
-      <TextField placeholder="Email" onChange={(e) => setEmail(e.target.value)} value={email} size="small" />
-    </Grid><Grid item className="form-item">
-      <TextField type="password" placeholder="Password" onChange={(e) => setPassword(e.target.value)} value={password} size="small" />
-    </Grid><Grid item className="form-item">
-      <Button handleClick={handleClick} text="Login" />
-    </Grid></>);
+    : (<>
+      <Grid item className="form-item">
+        <TextField
+          placeholder="Email"
+          onChange={(e) => setEmail(e.target.value)}
+          value={email}
+          size="small"
+          data-testid="email"/>
+      </Grid><Grid item className="form-item">
+        <TextField
+          type="password"
+          placeholder="Password"
+          onChange={(e) => setPassword(e.target.value)}
+          value={password}
+          size="small"
+          data-testid="password"/>
+      </Grid><Grid item className="form-item">
+        <Button handleClick={handleClick} text="Login" />
+      </Grid>
+    </>);
 
   return (<Form content={content} header="Login" />);
 };

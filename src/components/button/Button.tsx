@@ -12,7 +12,7 @@ const CustomButton = (props: ButtonProps) =>
     onClick={props.handleClick}
     disabled={props.disabled}
     variant="contained"
-    data-testid={props.text.toLowerCase().replace(" ", "-")}>
+    data-testid={props.text.replaceAll(/ /g, "-").toLowerCase()}>
     {props.text}
   </Button>);
 

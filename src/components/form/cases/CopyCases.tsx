@@ -75,6 +75,7 @@ const CopyCases = () => {
           error={error}
           helperText={error ? helperText : ""}
           InputProps={autoGenerate(handleGetFromTestRail, "bottom-end", false)}
+          data-testid="cases-ids"
         />
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">

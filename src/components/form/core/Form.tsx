@@ -10,7 +10,7 @@ export type FormProps = {
 const Form = (props: FormProps) => (
   <Grid container direction="row" alignItems="center">
     <Grid item className="form-title">
-      <h2>{props.header}</h2>
+      <h2 data-testid={`${props.header.replaceAll(/ /g, "-").toLowerCase()}`}>{props.header}</h2>
     </Grid>
     <Grid item style={{width: "250px"}}>
       <Grid container

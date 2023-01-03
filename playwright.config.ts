@@ -5,9 +5,10 @@ const config: PlaywrightTestConfig = {
   expect: {
     timeout: 5000,
   },
+  timeout: 120000,
   fullyParallel: true,
   retries: process.env.CI ? 2 : 0,
-  workers: process.env.CI ? 1 : undefined,
+  workers: process.env.CI ? 2 : 1,
   reporter: "html",
   use: {
     actionTimeout: 0,
