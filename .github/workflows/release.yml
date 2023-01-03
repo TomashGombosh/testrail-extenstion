@@ -1,14 +1,11 @@
 name: Release the extenstion
 
-# on: 
-#   push:
-#     tags:
-#     - '*'
-on:
-  pull_request:
-    branches: [ master ]
+on: 
+  push:
+    tags:
+    - '*'
 jobs:
-  build:
+  release:
     runs-on: ubuntu-latest
     permissions:
       contents: write
