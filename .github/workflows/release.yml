@@ -7,6 +7,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    outputs:
+      bodyString: ${{ steps.body.outputs.bodyString }}    
     permissions:
       contents: write
     env:
@@ -23,6 +25,7 @@ jobs:
     - name: Build extenstion
       run: npm run build        
     - name: Get release notes
+      id: body
       shell: bash        
       run: |
         sudo apt-get install jq curl
@@ -30,15 +33,9 @@ jobs:
         -H "Authorization:token $GITHUB_TOKEN" \
          -d '{"tag_name": "${{github.ref_name}}","target_commitish": "master"}'\
         | jq .body)
-        echo "$result" > body.txt
+        echo "bodyString=$result" >> $GITHUB_OUTPUT
         zip -r build.zip build
-    - uses: actions/upload-artifact@v3
-      if: always()
-      with:
-        name: body.txt
-        path: body.txt
-        retention-days: 30        
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build.zip"
-        bodyFile: "body.txt"
+        body: "${{ steps.body.outputs.bodyString }}"
