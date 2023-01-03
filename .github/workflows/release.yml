@@ -24,18 +24,8 @@ jobs:
       run: npm install  
     - name: Build extenstion
       run: npm run build        
-    - name: Get release notes
-      id: body
-      shell: bash        
-      run: |
-        sudo apt-get install jq curl
-        result=$(curl -X POST https://api.github.com/repos/TomashGombosh/testrail-extenstion/releases/generate-notes \
-        -H "Authorization:token $GITHUB_TOKEN" \
-         -d '{"tag_name": "${{github.ref_name}}","target_commitish": "master"}'\
-        | jq .body)
-        echo "bodyString=$result" >> $GITHUB_OUTPUT
-        zip -r build.zip build
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build.zip"
-        body: "${{ steps.body.outputs.bodyString }}"
+        generateReleaseNotes: true
+        
