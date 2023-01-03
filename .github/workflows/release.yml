@@ -1,10 +1,12 @@
-name: Releases
+name: Release the extenstion
 
-on: 
-  push:
-    tags:
-    - '*'
-
+# on: 
+#   push:
+#     tags:
+#     - '*'
+on:
+  pull_request:
+    branches: [ master ]
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -28,7 +30,7 @@ jobs:
       run: |
         sudo apt-get install jq curl
         curl -X POST https://api.github.com/repos/TomashGombosh/testrail-extenstion/releases/generate-notes \
-        -H "Authorization:token b67cb2d7d22375083f196b1d8080ffbdde082a1a" \
+        -H "Authorization:token $GITHUB_TOKEN" \
          -d '{"tag_name": "v1.0.0","target_commitish": "master"}'\
         | jq .body | cat > body.md
         zip -r build.zip build
