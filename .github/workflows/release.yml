@@ -30,15 +30,15 @@ jobs:
         -H "Authorization:token $GITHUB_TOKEN" \
          -d '{"tag_name": "${{github.ref_name}}","target_commitish": "master"}'\
         | jq .body)
-        echo "$result" | sed -r 's/["]+//g' > body.md
+        echo "$result" > body.txt
         zip -r build.zip build
     - uses: actions/upload-artifact@v3
       if: always()
       with:
-        name: body.md
-        path: body.md
+        name: body.txt
+        path: body.txt
         retention-days: 30        
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build.zip"
-        bodyFile: "body.md"
+        bodyFile: "body.txt"
