@@ -1,0 +1,44 @@
+name: Releases
+
+on: 
+  push:
+    tags:
+    - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+    - name: Setup node
+      uses: actions/setup-node@master
+      with:
+        node-version: '18.x'    
+    - name: Install dependencies
+      run: npm install  
+    - name: Build extenstion
+      run: npm run build        
+    - name: Get release notes
+      shell: bash        
+      run: |
+        sudo apt-get install jq curl
+        curl -X POST https://api.github.com/repos/TomashGombosh/testrail-extenstion/releases/generate-notes \
+        -H "Authorization:token b67cb2d7d22375083f196b1d8080ffbdde082a1a" \
+         -d '{"tag_name": "v1.0.0","target_commitish": "master"}'\
+        | jq .body | cat > body.md
+        zip -r build.zip build
+    - uses: actions/upload-artifact@v3
+      if: always()
+      with:
+        name: body.md
+        path: body.md
+        retention-days: 30        
+    - uses: ncipollo/release-action@v1
+      with:
+        artifacts: "build.zip"
+        bodyFile: "body.md"
