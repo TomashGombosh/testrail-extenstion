@@ -1,9 +1,9 @@
-name: Release the extenstion
+name: Release the dev extenstion
 
 on: 
   push:
     tags:
-    - 'v*.*.*'
+    - 'v*.*.*-dev'
 
 jobs:
   release:
@@ -30,4 +30,5 @@ jobs:
       with:
         artifacts: "build.zip"
         generateReleaseNotes: true
+        prerelease: true
         
