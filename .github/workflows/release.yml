@@ -23,7 +23,10 @@ jobs:
     - name: Install dependencies
       run: npm install  
     - name: Build extenstion
-      run: npm run build        
+      run: npm run build       
+    - name: Zip the build
+      shell: bash
+      run: zip -r build.zip build       
     - uses: ncipollo/release-action@v1
       with:
         artifacts: "build.zip"
