@@ -12,6 +12,12 @@ export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";
 export const STATE_ROUTE_ATTRIBUTE = "routingState";
 export const AUTH_TOKEN_ATTRIBUTE = "token";
 
+export const PASSWORD_LENGTH = 8;
+export const WEAK_PASSWORD_REGEX =
+  /^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z]).{8,10}$/g;
+
+export const DEFAULT_ERROR_MESSAGE = "This field is required";
+
 export * from "./routes";
 
 export * from "./statusCodes";

@@ -6,6 +6,7 @@ export const PUBLIC_ROUTES: Routing = {
 
 export const AUTH_ROUTES: Routing = {
   DASHBOARD: "/",
+  CHANGE_PASSWORD: "/change-password",
   CASES: "/cases",
   SECTIONS: "/section",
   COPY: "/copy",

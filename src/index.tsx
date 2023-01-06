@@ -17,6 +17,7 @@ const root = ReactDOM.createRoot(
 const TokenForm = lazy(() => import("./components/form/settings/TokenForm"));
 const StartForm = lazy(() => import("./components/form/StartForm"));
 const SettingsForm = lazy(() => import("./components/form/settings/SettingsForm"));
+const ChagePasswordForm = lazy(() => import("./components/form/settings/ChagePasswordForm"));
 const ProjectsForm = lazy(() => import("./components/form/settings/ProjectsForm"));
 const TeamsForm = lazy(() => import("./components/form/settings/TeamsForm"));
 const CreateSectionCases = lazy(() => import("./components/form/cases/CreateSectionCases"));
@@ -41,6 +42,9 @@ const Main = () => {
         </Routes>
         <Routes>
           <Route path={AUTH_ROUTES.SETTINGS} element={renderAuthenticateRoute(SettingsForm)} />
+        </Routes>
+        <Routes>
+          <Route path={`${AUTH_ROUTES.CHANGE_PASSWORD}`} element={renderAuthenticateRoute(ChagePasswordForm)} />
         </Routes>
         <Routes>
           <Route path={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TOKEN}`} element={renderAuthenticateRoute(TokenForm)} />
