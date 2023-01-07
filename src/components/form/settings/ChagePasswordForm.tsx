@@ -6,16 +6,23 @@ import TextField from "@mui/material/TextField";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
 import IconButton from "@mui/material/IconButton";
-import Button from "../../button/Button";
+import Button from "../../button/SmallButton";
 import UserService from "../../../service/api/UserService";
-import { AUTH_ROUTES, DEFAULT_ERROR_MESSAGE, OK, WEAK_PASSWORD_REGEX } from "../../../constants";
+import { AUTH_ROUTES,
+  PUBLIC_ROUTES,
+  AUTH_TOKEN_ATTRIBUTE,
+  DEFAULT_ERROR_MESSAGE,
+  OK,
+  WEAK_PASSWORD_REGEX } from "../../../constants";
 import Loader from "../../loader/Loader";
 import Form from "../core/Form";
 import { PASSWORD_LENGTH } from "../../../constants/index";
+import { ChangePasswordRequest } from "../../../types/requests";
 
 const ChagePasswordForm = () => {
-  const [isLoading] = useState<boolean>(false);
-  const [isShowPassword, setShowPassowrd] = useState<boolean>(false);
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [isShowOldPassword, setShowOldPassowrd] = useState<boolean>(false);
+  const [isShowNewPassword, setShowNewPassowrd] = useState<boolean>(false);
   const [oldPassword, setOldPassword] = useState<string|undefined>(undefined);
   const [newPassword, setNewPassword] = useState<string>("");
   const [newPasswordError, setNewPasswordError] = useState<boolean>(false);
@@ -26,10 +33,30 @@ const ChagePasswordForm = () => {
   const navigate = useNavigate();
 
   const handleClick = async () => {
-    const response = await UserService.getMe();
-    if (response.status === OK) {
-      navigate(AUTH_ROUTES.DASHBOARD);
+    setLoading(true);
+    if (oldPassword) {
+      const request: ChangePasswordRequest = {
+        oldPassword: oldPassword,
+        newPassword: newPassword,
+      };
+      try {
+        const changePasswordResponse = await UserService.changePassword(request);
+        if (changePasswordResponse.status === OK) {
+          const firstLoginResponse = await UserService.firstLogin();
+          if (firstLoginResponse.status === OK) {
+            navigate(AUTH_ROUTES.DASHBOARD);
+          }
+        }
+      } catch (err) {
+        setLoading(false);
+      }
     }
+  };
+
+  const handleBack = () => {
+    setLoading(true);
+    localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
+    navigate(PUBLIC_ROUTES.LOGIN);
   };
 
   const handleNewPassword = (e : React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -60,16 +87,18 @@ const ChagePasswordForm = () => {
     setConfirmPassword(value);
   };
 
-  const icon = isShowPassword ? (<VisibilityIcon />) : (<VisibilityOffIcon/>);
-
-  const showPassword = (onClickFunction: any) => ({
+  const showPassword = (onClickFunction: any,
+    isShowIcon: boolean,
+    disabled: boolean) => ({
     endAdornment: (
       <Tooltip
         title="Show password"
         arrow
         placement="top-end"
-      ><IconButton onClick={onClickFunction}>
-          {icon}
+        disableHoverListener={disabled}
+        disableFocusListener={disabled}
+      ><IconButton onClick={onClickFunction} disabled={disabled}>
+          {isShowIcon ? (<VisibilityIcon />) : (<VisibilityOffIcon/>)}
         </IconButton>
       </Tooltip>),
   });
@@ -77,18 +106,19 @@ const ChagePasswordForm = () => {
   const fields = [
     {
       element: (<TextField
-        type={isShowPassword ? "text" : "password"}
+        type={isShowOldPassword ? "text" : "password"}
         placeholder="Old password"
         onChange={(e) => setOldPassword(e.target.value)}
         value={oldPassword}
         error={oldPassword === ""}
-        helperText={oldPassword === "" ? "Please fill required field" : undefined}
+        helperText={oldPassword === "" ? DEFAULT_ERROR_MESSAGE : undefined}
         size="small"
-        InputProps={showPassword(() => setShowPassowrd(!isShowPassword))} />),
+        InputProps={showPassword(() => setShowOldPassowrd(!isShowOldPassword), isShowOldPassword, false)}
+        data-testid="old-password"/>),
     },
     {
       element: (<TextField
-        type={isShowPassword ? "text" : "password"}
+        type={isShowNewPassword ? "text" : "password"}
         placeholder="New password"
         onChange={(e) => handleNewPassword(e)}
         value={newPassword}
@@ -96,19 +126,27 @@ const ChagePasswordForm = () => {
         helperText={newPasswordError ? newPasswordErrorText : undefined }
         disabled={oldPassword === undefined || oldPassword === ""}
         size="small"
-        InputProps={showPassword(() => setShowPassowrd(!isShowPassword))} />),
+        InputProps={showPassword(
+          () => setShowNewPassowrd(!isShowNewPassword),
+          isShowNewPassword,
+          oldPassword === undefined || oldPassword === "")}
+        data-testid="new-password"/>),
     },
     {
       element: (<TextField
-        type={isShowPassword ? "text" : "password"}
+        type={isShowNewPassword ? "text" : "password"}
         placeholder="Confirm new password"
         onChange={(e) => handleConfirmPassword(e)}
         value={confirmPassword}
         error={confirmPasswordError}
-        helperText={newPasswordError ? newPasswordErrorText : undefined }
+        helperText={confirmPasswordError ? confirmPasswordErrorText : undefined }
         disabled={newPasswordError || newPassword === ""}
         size="small"
-        InputProps={showPassword(() => setShowPassowrd(!isShowPassword))} />),
+        InputProps={showPassword(
+          () => setShowNewPassowrd(!isShowNewPassword),
+          isShowNewPassword,
+          newPasswordError || newPassword === "")}
+        data-testid="confirm-password"/>),
     },
   ];
 
@@ -119,6 +157,7 @@ const ChagePasswordForm = () => {
         {el.element}
       </Grid>))}
     <Grid item className="form-item" style={{width: "100%"}} id="buttons">
+      <Button handleClick={handleBack} text="Back" />
       <Button
         handleClick={handleClick}
         text="Change"

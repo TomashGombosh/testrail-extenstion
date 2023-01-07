@@ -24,6 +24,8 @@ export const API_ROUTES: Routing = {
   USER: "/users",
   ME: "/me",
   UPDATE_TEST_RAIL: "/testrail",
+  CHANGE_PASSWORD: "/change-password",
+  FIRST_LOGIN: "/first-login",
   PROJECTS: "/projects",
   SECTIONS: "/sections",
   TEAMS: "/teams",

@@ -1,7 +1,12 @@
 /* eslint-disable no-empty-pattern */
-import { test as base, chromium, type BrowserContext } from "@playwright/test";
+import { test as base, request as baseRequest, chromium, type BrowserContext, APIRequestContext } from "@playwright/test";
 import path from "path";
-import { LoginForm, StartForm, MergeCasesForm, CopyCasesForm } from "../po/index";
+import { LoginForm,
+  StartForm,
+  MergeCasesForm,
+  CopyCasesForm,
+  ChagePasswordForm } from "../po/index";
+import { API_BASE_URL, API_TIMEOUT } from "../constants/index";
 
 type Fixtures = {
   context: BrowserContext;
@@ -10,6 +15,8 @@ type Fixtures = {
   startFrom: StartForm;
   copyCasesForm: CopyCasesForm;
   mergeCasesForm: MergeCasesForm;
+  changePasswordForm: ChagePasswordForm;
+  api: APIRequestContext;
 }
 
 export const test = base.extend<Fixtures>({
@@ -47,6 +54,19 @@ export const test = base.extend<Fixtures>({
   mergeCasesForm: async ({ page }, use) => {
     const mergeCasesForm = new MergeCasesForm(page);
     await use(mergeCasesForm);
+  },
+  changePasswordForm: async ({ page }, use) => {
+    const changePasswordForm = new ChagePasswordForm(page);
+    await use(changePasswordForm);
+  },
+  api: async ({ }, use) => {
+    await use(await baseRequest.newContext({
+      baseURL: API_BASE_URL,
+      extraHTTPHeaders: {
+        "Content-Type": "application/json",
+      },
+      timeout: API_TIMEOUT,
+    }));
   },
 });
 export const expect = test.expect;

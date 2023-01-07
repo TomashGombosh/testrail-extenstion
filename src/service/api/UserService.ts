@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { API_ROUTES } from "../../constants";
-import { StoreUserTestRailDataRequest } from "../../types/requests";
+import { ChangePasswordRequest, StoreUserTestRailDataRequest } from "../../types/requests";
 import api from "./api";
 
 class UserService {
@@ -10,6 +10,14 @@ class UserService {
 
   async getMe (): Promise<AxiosResponse> {
     return await api.get(`${API_ROUTES.USER}${API_ROUTES.ME}`);
+  }
+
+  async changePassword (request: ChangePasswordRequest): Promise<AxiosResponse> {
+    return await api.put(`${API_ROUTES.USER}${API_ROUTES.ME}${API_ROUTES.CHANGE_PASSWORD}`, request);
+  }
+
+  async firstLogin (): Promise<AxiosResponse> {
+    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.ME}${API_ROUTES.FIRST_LOGIN}`);
   }
 }
 

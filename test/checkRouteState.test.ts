@@ -1,6 +1,5 @@
 import { test, expect } from "./fixtures/fixtures";
-import { MergeCasesForm } from "./po";
-import { CopyCasesForm } from "./po/copyCasesForm";
+import { MergeCasesForm, CopyCasesForm } from "./po";
 
 const USERNAME = process.env.USER_NAME ? process.env.USER_NAME : "";
 const PASSWORD = process.env.USER_KEY ? process.env.USER_KEY : "";
