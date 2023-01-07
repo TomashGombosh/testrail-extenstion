@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import Button from "../button/Button";
 import TextField from "@mui/material/TextField";
-import { AUTH_TOKEN_ATTRIBUTE, AUTH_ROUTES, OK, TEST_RAIL_MIDDLE_WARE_URL } from "../../constants";
+import { AUTH_TOKEN_ATTRIBUTE, AUTH_ROUTES, OK } from "../../constants";
 import api from "../../service/api/api";
 import LoginService from "../../service/api/LoginService";
 import { LoginRequest } from "../../types/requests/LoginRequest";
@@ -20,7 +20,6 @@ const LoginForm = () => {
     if (localStorage.getItem(AUTH_TOKEN_ATTRIBUTE) !== null) {
       navigate(AUTH_ROUTES.DASHBOARD);
     }
-    console.log(TEST_RAIL_MIDDLE_WARE_URL);
     setLoading(false);
   }, []);
 
