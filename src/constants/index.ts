@@ -1,5 +1,5 @@
 // API
-export const TEST_RAIL_MIDDLE_WARE_URL = "https://testrail-middleware.afj-solution.com";
+export const TEST_RAIL_MIDDLE_WARE_URL = process.env.REACT_APP_API_URL;
 
 // LOCAL STORAGE
 export const TEST_RAIL_TOKEN_ATTRIBUTE = "apiKey";

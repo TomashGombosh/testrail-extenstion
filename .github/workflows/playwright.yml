@@ -7,6 +7,7 @@ jobs:
     timeout-minutes: 60
     runs-on: ubuntu-latest
     env:
+      API_URL: https://dev-testrail-middleware.afj-solution.com
       USER_NAME: ${{ secrets.USER_NAME }}    
       USER_KEY: ${{ secrets.USER_KEY }}   
       API_KEY: ${{ secrets.API_KEY }}
@@ -20,7 +21,9 @@ jobs:
     - name: Install dependencies
       run: npm install        
     - name: Build extenstion
-      run: npm run build
+      run: |
+        echo REACT_APP_API_URL=$API_URL > .env
+        npm run build
     - name: Install Playwright Browsers
       run: npx playwright install --with-deps
     - name: Run Playwright tests
