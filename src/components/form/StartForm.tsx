@@ -3,22 +3,37 @@ import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import LinkButton, { LinkButtonProps } from "../button/LinkButton";
 import Button from "../button/Button";
-import { AUTH_ROUTES, AUTH_TOKEN_ATTRIBUTE, PUBLIC_ROUTES } from "../../constants";
+import { AUTH_ROUTES,
+  AUTH_TOKEN_ATTRIBUTE,
+  PUBLIC_ROUTES,
+  UNAUTHORIZED } from "../../constants";
 import Form from "./core/Form";
 import Loader from "../loader/Loader";
 import { STATE_ROUTE_ATTRIBUTE } from "../../constants/index";
+import UserService from "../../service/api/UserService";
 
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const navigate = useNavigate();
 
   useEffect(() => {
-    setLoading(false);
-    const route = localStorage.getItem(STATE_ROUTE_ATTRIBUTE);
-    if (route !== null) {
-      navigate(route);
-    }
-  }, [isLoading]);
+    const checkTheLoginAndRouteState = async () => {
+      const response = await UserService.getMe();
+      if (response.status === UNAUTHORIZED) {
+        handleLogout();
+      }
+      if (response.data.isFirstLogin) {
+        navigate(AUTH_ROUTES.CHANGE_PASSWORD);
+      }
+      const route = localStorage.getItem(STATE_ROUTE_ATTRIBUTE);
+      if (route !== null) {
+        navigate(route);
+      }
+      setLoading(false);
+    };
+
+    checkTheLoginAndRouteState();
+  }, []);
 
   const handleLogout = () => {
     setLoading(true);
