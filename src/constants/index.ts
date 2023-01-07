@@ -1,5 +1,5 @@
 // API
-export const TEST_RAIL_MIDDLE_WARE_URL = process.env.API_URL;
+export const TEST_RAIL_MIDDLE_WARE_URL = process.env.REACT_APP_API_URL;
 
 // LOCAL STORAGE
 export const TEST_RAIL_TOKEN_ATTRIBUTE = "apiKey";
