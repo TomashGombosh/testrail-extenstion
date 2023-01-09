@@ -12,7 +12,7 @@ const Form = (props: FormProps) => (
     <Grid item className="form-title">
       <h2 data-testid={`${props.header.replaceAll(/ /g, "-").toLowerCase()}`}>{props.header}</h2>
     </Grid>
-    <Grid item style={{width: "250px"}}>
+    <Grid item style={{minWidth: "250px"}}>
       <Grid container
         className="form-content"
         spacing={0}

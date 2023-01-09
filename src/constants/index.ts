@@ -11,6 +11,7 @@ export const TEST_RAIL_CASES_IDS_ATTRIBUTE = "casesIds";
 export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";
 export const STATE_ROUTE_ATTRIBUTE = "routingState";
 export const AUTH_TOKEN_ATTRIBUTE = "token";
+export const IS_ADMIN_LOGGED_IN = "isAdmin";
 
 export const PASSWORD_LENGTH = 8;
 export const WEAK_PASSWORD_REGEX =

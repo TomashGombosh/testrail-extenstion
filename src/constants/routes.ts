@@ -17,6 +17,7 @@ export const AUTH_ROUTES: Routing = {
   TEAMS: "/teams",
   TOKEN: "/token",
   HISTORY: "/history",
+  ADMIN: "/admin",
 };
 
 export const API_ROUTES: Routing = {
@@ -32,4 +33,5 @@ export const API_ROUTES: Routing = {
   CASES: "/cases",
   COPY: "/copy",
   MERGE: "/merge",
+  REGISTRATION: "/registration",
 };
