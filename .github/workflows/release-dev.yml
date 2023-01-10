@@ -12,7 +12,8 @@ jobs:
       contents: write
     env:
       API_URL: https://dev-testrail-middleware.afj-solution.com
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}    
+      API_KEY: ${{ secrets.API_KEY }}  
     steps:
     - name: Checkout code
       uses: actions/checkout@v3 
@@ -24,7 +25,8 @@ jobs:
       run: npm install  
     - name: Build extenstion
       run: |
-        echo REACT_APP_API_URL=$API_URL > .env
+        echo REACT_APP_API_URL=$API_URL >> .env
+        echo REACT_APP_API_KEY=$API_KEY >> .env
         npm run build       
     - name: Zip the build
       shell: bash

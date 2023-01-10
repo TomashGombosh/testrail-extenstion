@@ -21,7 +21,7 @@ class UserService {
   }
 
   async register (request: RegisterUserRequest): Promise<AxiosResponse> {
-    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.REGISTRATION}`);
+    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.REGISTRATION}`, request);
   }
 }
 
