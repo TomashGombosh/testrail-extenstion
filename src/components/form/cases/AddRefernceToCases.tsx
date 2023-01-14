@@ -13,8 +13,7 @@ import { AUTH_ROUTES,
   TEST_RAIL_SECTION_NAME_ATTRIBUTE,
   TEST_RAIL_PROJECT_ATTRIBUTE,
 } from "../../../constants";
-import { CreateSectionRequest, UpdateTestCasesRequest } from "../../../types/requests";
-import SectionService from "../../../service/api/SectionService";
+import { UpdateTestCasesRequest } from "../../../types/requests";
 import { OK } from "../../../constants/statusCodes";
 import CasesService from "../../../service/api/CasesService";
 import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
@@ -59,34 +58,25 @@ const CreateSectionCases = () => {
     const projectId = project !== null
       ? JSON.parse(project).id
       : null;
-    const sectionName = localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
+    const sectionId = localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
     const casesIds = localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE)?.replaceAll(/C/g, "").split(",") || [];
 
     if (projectId === null) {
       navigate(`${AUTH_ROUTES.SETTINGS}`);
     } else {
-      const createSectionRequest: CreateSectionRequest = {
-        projectId: parseInt(projectId),
-        name: sectionName || "",
-        description: sectionName || "",
+      const request: UpdateTestCasesRequest = {
+        projectId,
+        sectionId: sectionId || "",
+        casesIds: casesIds,
+        references: references || "",
       };
-      const sectionResponse = await SectionService.createSection(createSectionRequest);
-      if (sectionResponse.status === OK) {
-        const sectionId = sectionResponse.data.id;
-        const request: UpdateTestCasesRequest = {
-          projectId,
-          sectionId,
-          casesIds: casesIds,
-          references: references || "",
-        };
-        const casesResponse = await CasesService.copyTestCases(request);
-        if (casesResponse.status === OK) {
-          navigate(AUTH_ROUTES.DASHBOARD);
-          localStorage.removeItem(TEST_RAIL_CASES_IDS_ATTRIBUTE);
-          localStorage.removeItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
-          localStorage.removeItem(TEST_RAIL_REFERENCES_ATTRIBUTE);
-          localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
-        }
+      const casesResponse = await CasesService.copyTestCases(request);
+      if (casesResponse.status === OK) {
+        navigate(AUTH_ROUTES.DASHBOARD);
+        localStorage.removeItem(TEST_RAIL_CASES_IDS_ATTRIBUTE);
+        localStorage.removeItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
+        localStorage.removeItem(TEST_RAIL_REFERENCES_ATTRIBUTE);
+        localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
       }
     }
   };
