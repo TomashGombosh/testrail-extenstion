@@ -9,10 +9,10 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
     env:
       API_URL: https://testrail-middleware.afj-solution.com    
-      GITHUB_TOKEN: ${{ secrets.PATNAME }} 
+      GITHUB_TOKEN: ${{ secrets.PATHNAME }} 
       API_KEY: ${{ secrets.API_KEY }}     
     steps:
     - name: Checkout code
