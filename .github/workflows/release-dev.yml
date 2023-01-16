@@ -4,7 +4,7 @@ on:
   push:
     tags:
     - dev/*
-    - '!v1.*'
+    - '!v.*'
 
 jobs:
   release:
