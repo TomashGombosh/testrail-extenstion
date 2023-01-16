@@ -3,4 +3,4 @@ export * from "./startForm";
 export * from "./copyCasesForm";
 export * from "./mergeCasesForm";
 export * from "./changePasswordForm";
-export * from "./RegisterForm";
+export * from "./registerForm";
