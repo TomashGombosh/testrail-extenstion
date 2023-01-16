@@ -9,7 +9,7 @@ jobs:
   release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write
+      contents: read
     env:
       API_URL: https://testrail-middleware.afj-solution.com    
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
