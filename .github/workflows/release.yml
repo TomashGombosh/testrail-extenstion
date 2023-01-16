@@ -3,7 +3,8 @@ name: Release the extenstion
 on: 
   push:
     tags:
-    - v.*
+    - v1.*
+    - v2.*
     - '!dev/*'
 
 jobs:
