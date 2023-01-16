@@ -10,13 +10,16 @@ import { ChromeMessage, Sender } from "../../../types/chrome";
 import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES } from "../../../constants";
+import { AUTH_ROUTES,
+  STATE_ROUTE_ATTRIBUTE,
+  TEST_RAIL_PROJECT_ATTRIBUTE,
+} from "../../../constants";
 import CasesService from "../../../service/api/CasesService";
 import { MergeTestCasesRequest } from "../../../types/requests";
 import { OK } from "../../../constants/statusCodes";
 import autoGenerate from "../../autoGenerate/AutoGenerate";
-import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
 import ConfirmForm from "../ConfirmForm";
+import { Project } from "../../../types/testrail";
 
 const MergeCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -123,13 +126,20 @@ const MergeCases = () => {
     setShowConfirm(true);
   };
 
+  const getProjectFromLocalStorage = (): Project|undefined => {
+    const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
+    return project !== null
+      ? JSON.parse(project) as Project
+      : undefined;
+  };
+
   const handleSubmit = async () => {
     setLoading(true);
     const casesIdsArray = casesIds.replaceAll(/C/g, "").split(",") || [];
-
-    const request: MergeTestCasesRequest = {
-      casesIds: casesIdsArray,
-    };
+    const project = getProjectFromLocalStorage();
+    const request: MergeTestCasesRequest = casesIds.length > 0
+      ? { casesIds: casesIdsArray }
+      : { sectionId: sectionId, projectId: project?.id };
     const casesResponse = await CasesService.mergeTestCases(request);
     if (casesResponse.status === OK) {
       localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
