@@ -1,6 +1,6 @@
 import { AxiosResponse } from "axios";
 import { API_ROUTES } from "../../constants";
-import { ChangePasswordRequest, StoreUserTestRailDataRequest } from "../../types/requests";
+import { ChangePasswordRequest, RegisterUserRequest, StoreUserTestRailDataRequest } from "../../types/requests";
 import api from "./api";
 
 class UserService {
@@ -18,6 +18,10 @@ class UserService {
 
   async firstLogin (): Promise<AxiosResponse> {
     return await api.patch(`${API_ROUTES.USER}${API_ROUTES.ME}${API_ROUTES.FIRST_LOGIN}`);
+  }
+
+  async register (request: RegisterUserRequest): Promise<AxiosResponse> {
+    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.REGISTRATION}`, request);
   }
 }
 

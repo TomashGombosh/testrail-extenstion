@@ -24,6 +24,7 @@ const CreateSectionCases = lazy(() => import("./components/form/cases/CreateSect
 const CopyCases = lazy(() => import("./components/form/cases/CopyCases"));
 const AddRefernceToCases = lazy(() => import("./components/form/cases/AddRefernceToCases"));
 const MergeCases = lazy(() => import("./components/form/cases/MergeCases"));
+const RegistrationForm = lazy(() => import("./components/form/RegistrationForm"));
 
 const Main = () => {
   const renderAuthenticateRoute = (element: React.FunctionComponent) => (
@@ -69,6 +70,9 @@ const Main = () => {
         </Routes>
         <Routes>
           <Route path={AUTH_ROUTES.DASHBOARD} element={renderAuthenticateRoute(StartForm)} />
+        </Routes>
+        <Routes>
+          <Route path={AUTH_ROUTES.ADMIN} element={renderAuthenticateRoute(RegistrationForm)} />
         </Routes>
       </Suspense>
     </Router>
