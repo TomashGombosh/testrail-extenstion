@@ -33,7 +33,7 @@ const App = (props: MainProps) => {
         {isLoading ? <Loader/> : props.children}
       </Grid>
       <Grid item className="footer">
-        © 2022 iDeals. All rights reserved.
+        © 2022-2023. All rights reserved.
       </Grid>
     </Grid>
 
