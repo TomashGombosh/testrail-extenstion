@@ -5,6 +5,7 @@ import LinkButton, { LinkButtonProps } from "../button/LinkButton";
 import Button from "../button/Button";
 import { AUTH_ROUTES,
   AUTH_TOKEN_ATTRIBUTE,
+  IS_ADMIN_LOGGED_IN,
   PUBLIC_ROUTES,
   UNAUTHORIZED } from "../../constants";
 import Form from "./core/Form";
@@ -14,6 +15,7 @@ import UserService from "../../service/api/UserService";
 
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -29,6 +31,8 @@ const StartForm = () => {
       if (route !== null) {
         navigate(route);
       }
+      const isAdmin = localStorage.getItem(IS_ADMIN_LOGGED_IN);
+      setIsAdminLoggedIn(isAdmin === "true");
       setLoading(false);
     };
 
@@ -39,6 +43,11 @@ const StartForm = () => {
     setLoading(true);
     localStorage.removeItem(AUTH_TOKEN_ATTRIBUTE);
     navigate(PUBLIC_ROUTES.LOGIN);
+  };
+
+  const handleAdmin = () => {
+    setLoading(true);
+    navigate(AUTH_ROUTES.ADMIN);
   };
 
   const buttons: Array<LinkButtonProps> = [
@@ -72,6 +81,9 @@ const StartForm = () => {
           <Grid item className="form-item" key={index}>
             <LinkButton link={button.link} text={button.text} disabled={button.disabled}/>
           </Grid>))}
+        {isAdminLoggedIn && (<Grid item className="form-item">
+          <Button handleClick={handleAdmin} text="Admin Section"/>
+        </Grid>)}
         <Grid item className="form-item">
           <Button handleClick={handleLogout} text="Logout"/>
         </Grid>

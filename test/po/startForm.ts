@@ -5,6 +5,7 @@ export class StartForm {
   readonly header: Locator;
   readonly copyCasesButton: Locator;
   readonly mergeCasesButton: Locator;
+  readonly adminSection: Locator;
   readonly logout: Locator;
 
   constructor (page: Page) {
@@ -12,6 +13,7 @@ export class StartForm {
     this.header = this.page.locator("[data-testid='main-menu']");
     this.copyCasesButton = this.page.locator("[data-testid='copy-cases']");
     this.mergeCasesButton = this.page.locator("[data-testid='merge-cases']");
+    this.adminSection = this.page.locator("[data-testid='admin-section']");
     this.logout = this.page.locator("[data-testid='logout']");
   }
 }

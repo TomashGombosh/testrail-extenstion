@@ -5,7 +5,8 @@ import { LoginForm,
   StartForm,
   MergeCasesForm,
   CopyCasesForm,
-  ChagePasswordForm } from "../po/index";
+  ChagePasswordForm,
+  RegisterForm } from "../po/index";
 import { API_BASE_URL, API_TIMEOUT } from "../constants/index";
 
 type Fixtures = {
@@ -16,6 +17,7 @@ type Fixtures = {
   copyCasesForm: CopyCasesForm;
   mergeCasesForm: MergeCasesForm;
   changePasswordForm: ChagePasswordForm;
+  registerForm: RegisterForm
   api: APIRequestContext;
 }
 
@@ -58,6 +60,10 @@ export const test = base.extend<Fixtures>({
   changePasswordForm: async ({ page }, use) => {
     const changePasswordForm = new ChagePasswordForm(page);
     await use(changePasswordForm);
+  },
+  registerForm: async ({ page }, use) => {
+    const registerForm = new RegisterForm(page);
+    await use(registerForm);
   },
   api: async ({ }, use) => {
     await use(await baseRequest.newContext({
