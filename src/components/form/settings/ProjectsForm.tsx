@@ -4,7 +4,7 @@ import Grid from "@mui/material/Grid";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import Project from "../../../types/Project";
+import { Project } from "../../../types/testrail";
 import ProjectService from "../../../service/api/ProjectService";
 import {
   AUTH_ROUTES,

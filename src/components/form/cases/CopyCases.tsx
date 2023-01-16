@@ -6,7 +6,7 @@ import { ChromeMessage, Sender } from "../../../types/chrome";
 import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES, TEST_RAIL_CASES_IDS_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES, TEST_RAIL_CASES_IDS_ATTRIBUTE, TEST_RAIL_REFERENCES_ATTRIBUTE, TEST_RAIL_SECTION_ID_ATTRIBUTE } from "../../../constants";
 import autoGenerate from "../../autoGenerate/AutoGenerate";
 import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
 
@@ -20,6 +20,10 @@ const CopyCases = () => {
   useEffect(() => {
     setLoading(false);
     localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`);
+    const ids = localStorage.getItem(TEST_RAIL_CASES_IDS_ATTRIBUTE);
+    if (ids !== null) {
+      setCasesIds(ids);
+    }
   }, []);
 
   const handleCasesId = (e: any) => {
@@ -63,6 +67,14 @@ const CopyCases = () => {
     });
   };
 
+  const handleBack = () => {
+    navigate(`${AUTH_ROUTES.DASHBOARD}`);
+    localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
+    localStorage.removeItem(TEST_RAIL_SECTION_ID_ATTRIBUTE);
+    localStorage.removeItem(TEST_RAIL_REFERENCES_ATTRIBUTE);
+    localStorage.removeItem(TEST_RAIL_CASES_IDS_ATTRIBUTE);
+  };
+
   const content = isLoading
     ? <Loader/>
     : <>
@@ -79,7 +91,7 @@ const CopyCases = () => {
         />
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">
-        <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`)} text="Back"/>
+        <SmallButton handleClick={handleBack} text="Back"/>
         <SmallButton handleClick={() => navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.REFERENCES}`)} text="Next" disabled={casesIds === ""}/>
       </Grid>
     </>;

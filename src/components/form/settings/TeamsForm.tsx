@@ -18,7 +18,7 @@ import Form from "../core/Form";
 import SmallButton from "../../button/SmallButton";
 import SectionService from "../../../service/api/SectionService";
 import ErrorForm from "../core/ErrorForm";
-import { Team } from "../../../types/Team";
+import { Team } from "../../../types/testrail";
 
 const TeamsForm = () => {
   const [teams, setTeams] = useState<Team[]>([]);
