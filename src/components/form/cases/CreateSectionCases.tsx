@@ -10,7 +10,9 @@ import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
 import { AUTH_ROUTES,
+  TEST_RAIL_TEAM_SECTION,
   TEST_RAIL_SECTION_NAME_ATTRIBUTE,
+  TEST_RAIL_SECTION_ID_ATTRIBUTE,
   TEST_RAIL_PROJECT_ATTRIBUTE,
   DEFAULT_ERROR_MESSAGE } from "../../../constants";
 import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
@@ -18,6 +20,7 @@ import { CreateSectionRequest, SectionQuery } from "../../../types/requests";
 import SectionService from "../../../service/api/SectionService";
 import { OK } from "../../../constants/statusCodes";
 import { AxiosResponse } from "axios";
+import { Project, Team } from "../../../types/testrail";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -30,6 +33,10 @@ const CreateSectionCases = () => {
   useEffect(() => {
     setLoading(false);
     localStorage.setItem(STATE_ROUTE_ATTRIBUTE, `${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`);
+    const sectionName = localStorage.getItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE);
+    if (sectionName !== null) {
+      setSectionName(sectionName);
+    }
   }, []);
 
   const handleClear = () => {
@@ -53,18 +60,28 @@ const CreateSectionCases = () => {
     </IconButton>),
   });
 
-  const getProjectFromLocalStorage = () => {
+  const getProjectFromLocalStorage = (): Project|null => {
     const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
     return project !== null
-      ? JSON.parse(project)
+      ? JSON.parse(project) as Project
       : null;
   };
 
+  const getTeamFromLocalStorage = (): Team|undefined => {
+    const team = localStorage.getItem(TEST_RAIL_TEAM_SECTION);
+    return team !== null
+      ? JSON.parse(team) as Team
+      : undefined;
+  };
+
   const createNewSection = async (projectId: string): Promise<AxiosResponse> => {
+    const team: Team|undefined = getTeamFromLocalStorage();
+    const teamSectionId = team !== undefined ? team.id : undefined;
     const createSectionRequest: CreateSectionRequest = {
       projectId: parseInt(projectId),
       name: sectionName || "",
       description: sectionName || "",
+      teamSectionId,
     };
     const sectionResponse = await SectionService.createSection(createSectionRequest);
     return sectionResponse;
@@ -85,13 +102,14 @@ const CreateSectionCases = () => {
     if (project !== null) {
       let sectionResponse;
       if (checked) {
-        sectionResponse = await createNewSection(project.id);
+        sectionResponse = await createNewSection(`${project.id}`);
       } else {
-        sectionResponse = await getSection(project.id);
+        sectionResponse = await getSection(`${project.id}`);
       }
       if (sectionResponse.status === OK) {
         const sectionId = sectionResponse.data.id;
-        localStorage.setItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE, sectionId);
+        localStorage.setItem(TEST_RAIL_SECTION_ID_ATTRIBUTE, sectionId);
+        localStorage.setItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE, sectionName);
         navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`);
       } else {
         setError(true);

@@ -8,6 +8,7 @@ export const TEST_RAIL_EMAIL_ATTRIBUTE = "email";
 export const TEST_RAIL_PROJECT_ATTRIBUTE = "project";
 export const TEST_RAIL_TEAM_SECTION = "team";
 export const TEST_RAIL_SECTION_NAME_ATTRIBUTE = "sectionName";
+export const TEST_RAIL_SECTION_ID_ATTRIBUTE = "sectionId";
 export const TEST_RAIL_CASES_IDS_ATTRIBUTE = "casesIds";
 export const TEST_RAIL_REFERENCES_ATTRIBUTE = "references";
 export const STATE_ROUTE_ATTRIBUTE = "routingState";

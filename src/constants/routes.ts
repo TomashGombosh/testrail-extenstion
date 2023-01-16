@@ -18,6 +18,7 @@ export const AUTH_ROUTES: Routing = {
   TOKEN: "/token",
   HISTORY: "/history",
   ADMIN: "/admin",
+  RESULTS: "/results",
 };
 
 export const API_ROUTES: Routing = {

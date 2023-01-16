@@ -1,7 +1,8 @@
 export type CreateSectionRequest = {
     name: string,
     description: string,
-    projectId: number
+    projectId: number,
+    teamSectionId?: number,
 };
 
 export type SectionQuery = {

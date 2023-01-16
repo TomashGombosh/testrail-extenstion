@@ -24,6 +24,7 @@ const CreateSectionCases = lazy(() => import("./components/form/cases/CreateSect
 const CopyCases = lazy(() => import("./components/form/cases/CopyCases"));
 const AddRefernceToCases = lazy(() => import("./components/form/cases/AddRefernceToCases"));
 const MergeCases = lazy(() => import("./components/form/cases/MergeCases"));
+const ResultMergeCases = lazy(() => import("./components/form/cases/ResultMergeCases"));
 const RegistrationForm = lazy(() => import("./components/form/RegistrationForm"));
 
 const Main = () => {
@@ -67,6 +68,9 @@ const Main = () => {
         </Routes>
         <Routes>
           <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.MERGE}`} element={renderAuthenticateRoute(MergeCases)} />
+        </Routes>
+        <Routes>
+          <Route path={`${AUTH_ROUTES.CASES}${AUTH_ROUTES.MERGE}${AUTH_ROUTES.RESULTS}`} element={renderAuthenticateRoute(ResultMergeCases)} />
         </Routes>
         <Routes>
           <Route path={AUTH_ROUTES.DASHBOARD} element={renderAuthenticateRoute(StartForm)} />
