@@ -1,6 +1,6 @@
 {
   "name": "testrail-extension",
-  "version": "1.0.17-dev",
+  "version": "1.0.18-dev",
   "private": true,
   "dependencies": {
     "@craco/craco": "7.0.0",
