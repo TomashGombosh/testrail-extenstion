@@ -4,17 +4,27 @@ import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
 import ClearIcon from "@mui/icons-material/Clear";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
 import Loader from "../../loader/Loader";
 import SmallButton from "../../button/SmallButton";
 import Form from "../core/Form";
-import { AUTH_ROUTES, TEST_RAIL_SECTION_NAME_ATTRIBUTE, TEST_RAIL_PROJECT_ATTRIBUTE } from "../../../constants";
+import { AUTH_ROUTES,
+  TEST_RAIL_SECTION_NAME_ATTRIBUTE,
+  TEST_RAIL_PROJECT_ATTRIBUTE,
+  DEFAULT_ERROR_MESSAGE } from "../../../constants";
 import { STATE_ROUTE_ATTRIBUTE } from "../../../constants/index";
+import { CreateSectionRequest, SectionQuery } from "../../../types/requests";
+import SectionService from "../../../service/api/SectionService";
+import { OK } from "../../../constants/statusCodes";
+import { AxiosResponse } from "axios";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [sectionName, setSectionName] = useState<string>("");
+  const [checked, setChecked] = useState<boolean>(true);
   const [error, setError] = useState<boolean>(false);
-  const [helperText] = useState<string>("This field is required");
+  const [helperText, setHelperText] = useState<string>(DEFAULT_ERROR_MESSAGE);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,7 +45,6 @@ const CreateSectionCases = () => {
       setError(false);
     }
     setSectionName(value);
-    localStorage.setItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE, value);
   };
 
   const clearField = () => ({
@@ -44,16 +53,54 @@ const CreateSectionCases = () => {
     </IconButton>),
   });
 
-  const handleNext = () => {
+  const getProjectFromLocalStorage = () => {
     const project = localStorage.getItem(TEST_RAIL_PROJECT_ATTRIBUTE);
-    const projectId = project !== null
-      ? JSON.parse(project).id
+    return project !== null
+      ? JSON.parse(project)
       : null;
-    if (projectId === null) {
-      navigate(AUTH_ROUTES.SETTINGS);
+  };
+
+  const createNewSection = async (projectId: string): Promise<AxiosResponse> => {
+    const createSectionRequest: CreateSectionRequest = {
+      projectId: parseInt(projectId),
+      name: sectionName || "",
+      description: sectionName || "",
+    };
+    const sectionResponse = await SectionService.createSection(createSectionRequest);
+    return sectionResponse;
+  };
+
+  const getSection = async (projectId: string): Promise<AxiosResponse> => {
+    const queryParam: SectionQuery = {
+      projectId: parseInt(projectId),
+      name: sectionName,
+    };
+    const sectionResponse = await SectionService.getSection(queryParam);
+    return sectionResponse;
+  };
+
+  const handleNext = async () => {
+    setLoading(true);
+    const project = getProjectFromLocalStorage();
+    if (project !== null) {
+      let sectionResponse;
+      if (checked) {
+        sectionResponse = await createNewSection(project.id);
+      } else {
+        sectionResponse = await getSection(project.id);
+      }
+      if (sectionResponse.status === OK) {
+        const sectionId = sectionResponse.data.id;
+        localStorage.setItem(TEST_RAIL_SECTION_NAME_ATTRIBUTE, sectionId);
+        navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`);
+      } else {
+        setError(true);
+        setHelperText(sectionResponse.data.error);
+      };
     } else {
-      navigate(`${AUTH_ROUTES.CASES}${AUTH_ROUTES.COPY}`);
+      navigate(AUTH_ROUTES.SETTINGS);
     }
+    setLoading(false);
   };
 
   const handleBack = () => {
@@ -75,6 +122,15 @@ const CreateSectionCases = () => {
           InputProps={clearField()}
           data-testid="create-section"
         />
+      </Grid>
+      <Grid item className="form-item">
+        <FormControlLabel control={
+          <Checkbox
+            checked={checked}
+            onChange={() => setChecked(!checked)}
+            inputProps={{ "aria-label": "controlled" }}
+            color="success"
+          />} label="Create new section" />
       </Grid>
       <Grid item className="form-item" style={{width: "100%"}} id="buttons">
         <SmallButton handleClick={handleBack} text="Back"/>
