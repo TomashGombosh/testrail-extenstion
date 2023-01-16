@@ -31,7 +31,8 @@ test("Check the first login flow", async ({ context, page,
         Authorization: `Bearer ${token}`,
       },
     });
-    password = (await registrationResponse.json()).password;
+    const data = await registrationResponse.json();
+    password = data.password;
   });
   await test.step("Login to the application", async () => {
     await page.goto(`chrome-extension://${extensionId}/index.html`);
