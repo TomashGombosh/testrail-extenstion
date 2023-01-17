@@ -64,8 +64,15 @@ const MergeCases = () => {
       setError(true);
       setHelperText("No test cases selected in the testrail. Please check the boxes");
     } else {
-      const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
-      setCasesIds(`${caseIdsText}${response}`);
+      if (showCase) {
+        const caseIdsText = casesIds === "" ? casesIds : `${casesIds},`;
+        setCasesIds(`${caseIdsText}${response}`);
+        return;
+      }
+      if (showSection) {
+        setSectionId(response);
+        return;
+      }
     }
   };
 
