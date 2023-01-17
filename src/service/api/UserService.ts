@@ -5,7 +5,7 @@ import api from "./api";
 
 class UserService {
   async updateTestRailData (request: StoreUserTestRailDataRequest): Promise<AxiosResponse> {
-    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.UPDATE_TEST_RAIL}`, request);
+    return await api.patch(`${API_ROUTES.USER}${API_ROUTES.ME}${API_ROUTES.UPDATE_TEST_RAIL}`, request);
   };
 
   async getMe (): Promise<AxiosResponse> {
