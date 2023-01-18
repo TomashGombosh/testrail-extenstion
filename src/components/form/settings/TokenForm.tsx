@@ -2,6 +2,10 @@ import React, { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
+import IconButton from "@mui/material/IconButton";
+import Tooltip from "@mui/material/Tooltip";
+import Visibility from "@mui/icons-material/Visibility";
+import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import SmallButton from "../../button/SmallButton";
 import { StoreUserTestRailDataRequest } from "../../../types/requests";
 import UserService from "../../../service/api/UserService";
@@ -13,12 +17,16 @@ import { ChromeMessage, Sender } from "../../../types/chrome";
 
 const TokenForm = () => {
   const [isLoading] = useState<boolean>(false);
+  const [isSettingDisabled, setDisableSettings] = useState<boolean>(false);
+  const [isGenerateTokenDisabled, setGenerateToken] = useState<boolean>(true);
+  const [isCopyTokenDisabled, setCopyToken] = useState<boolean>(true);
   const [token, setToken] = useState<string|undefined>("");
   const [url, setUrl] = useState<string|undefined>("");
   const [urlError, setUrlError] = useState<boolean>(false);
   const [tokenError, setTokenError] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>("");
   const [header, setHeader] = useState<string>("Store you token");
+  const [isShowToken, setShowToken] = useState<boolean>(false);
   const navigate = useNavigate();
   const { state } = useLocation();
 
@@ -64,6 +72,8 @@ const TokenForm = () => {
       url: `${url}/index.php?/mysettings`,
     });
     setHelperText("Please generate new API key in the API keys tab and put it in the field. This field is requried");
+    setDisableSettings(true);
+    setGenerateToken(false);
   };
 
   const openApiKeys = () => {
@@ -111,7 +121,7 @@ const TokenForm = () => {
       from: Sender.React,
       message: "fill",
       additional: {
-        selector: "[id=userTokenNAme]",
+        selector: "[id=userTokenName]",
         value: "ChromeExtension",
       },
     };
@@ -184,9 +194,39 @@ const TokenForm = () => {
       chrome.tabs.sendMessage(
         currentTabId,
         message,
-        (response) => setToken(response)
+        (response) => console.log(response)
       );
     });
+  };
+
+  const showToken = () => ({
+    endAdornment: (
+      <Tooltip
+        title="Show token"
+        arrow
+        placement="top-end"
+      ><IconButton onClick={() => setShowToken(!isShowToken)}>
+          {isShowToken ? (<Visibility />) : (<VisibilityOff/>)}
+        </IconButton>
+      </Tooltip>),
+  });
+
+  const handleAutoGenerate = () => {
+    const stepTimeout = 1000;
+    setTimeout(openApiKeys, stepTimeout);
+    setTimeout(addKey, stepTimeout);
+    setTimeout(fillTokenName, stepTimeout);
+    setTimeout(clickGenerateKey, stepTimeout);
+    setGenerateToken(true);
+    setCopyToken(false);
+  };
+
+  const copyToken = () => {
+    const stepTimeout = 1000;
+    setTimeout(getToken, stepTimeout);
+    setTimeout(addToken, stepTimeout);
+    setCopyToken(true);
+    setDisableSettings(false);
   };
 
   const handleFillUrl = (e: any) => {
@@ -223,25 +263,16 @@ const TokenForm = () => {
         InputProps={autoGenerate(getTestRailUrl, "top-end", false)} />),
     },
     {
-      element: (<><TextField
-        type="password"
+      element: (<TextField
+        type={isShowToken ? "text" : "password"}
         placeholder="API key"
         onChange={(e) => handleFillToken(e)}
         value={token}
         error={tokenError}
         helperText={helperText}
         disabled={url === ""}
-        size="small"/>
-      <div>
-        <button onClick={goToTheSettings}>1</button>
-        <button onClick={openApiKeys}>2</button>
-        <button onClick={addKey}>3</button>
-        <button onClick={fillTokenName}>4</button>
-        <button onClick={clickGenerateKey}>5</button>
-        <button onClick={getToken}>6</button>
-        <button onClick={addToken}>7</button>
-      </div>
-      </>),
+        size="small"
+        InputProps={showToken()}/>),
     },
   ];
 
@@ -251,6 +282,11 @@ const TokenForm = () => {
       <Grid item key={index} className="form-item">
         {el.element}
       </Grid>))}
+    <Grid item className="form-item" style={{width: "100%"}} id="steps">
+      <SmallButton text="Start" handleClick={goToTheSettings} disabled={isSettingDisabled}/>
+      <SmallButton text="Generate" handleClick={handleAutoGenerate} disabled={isGenerateTokenDisabled}/>
+      <SmallButton text="Copy" handleClick={copyToken} disabled={isCopyTokenDisabled}/>
+    </Grid>
     <Grid item className="form-item" style={{width: "100%"}} id="buttons">
       <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back"/>
       <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === ""}/>
