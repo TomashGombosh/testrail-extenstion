@@ -51,13 +51,20 @@ h3 {
 }
 
 #buttons>button:first-child {
+    margin: auto;
     float: left;
 }
 
 #buttons>button:last-child {
+    margin: auto;
     float: right;
 }
 
 #error {
     color: red,
+}
+
+#steps>button {
+    margin-left: 7px;
+    margin-right: 7px;
 }

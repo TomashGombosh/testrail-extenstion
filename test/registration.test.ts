@@ -6,7 +6,7 @@ import { IS_ADMIN_LOGGED_IN } from "../src/constants/index";
 const USERNAME = process.env.USER_NAME ? process.env.USER_NAME : "";
 const PASSWORD = process.env.USER_KEY ? process.env.USER_KEY : "";
 
-test("Check the first login flow", async ({ page,
+test("Registration of the user using Admin settins", async ({ page,
   extensionId,
   loginForm,
   startFrom,

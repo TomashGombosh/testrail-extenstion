@@ -9,7 +9,7 @@ export type ButtonProps = {
 
 const SmallButton = (props: ButtonProps) =>
   (<Button
-    style={{width: "50px", margin: "auto"}}
+    style={{width: "50px"}}
     onClick={props.handleClick}
     disabled={props.disabled}
     variant="contained"
