@@ -1,6 +1,7 @@
 import { AxiosResponse } from "axios";
 import { API_ROUTES } from "../../constants";
 import { ChangePasswordRequest, RegisterUserRequest, StoreUserTestRailDataRequest } from "../../types/requests";
+import { MeResponse } from "../../types/response";
 import api from "./api";
 
 class UserService {
@@ -8,7 +9,7 @@ class UserService {
     return await api.patch(`${API_ROUTES.USER}${API_ROUTES.UPDATE_TEST_RAIL}`, request);
   };
 
-  async getMe (): Promise<AxiosResponse> {
+  async getMe (): Promise<AxiosResponse<MeResponse>> {
     return await api.get(`${API_ROUTES.USER}${API_ROUTES.ME}`);
   }
 

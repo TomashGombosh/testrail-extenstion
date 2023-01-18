@@ -1,16 +1,15 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Tooltip, { TooltipProps } from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
-import AutoFixHighIcon from "@mui/icons-material/AutoFixHigh";
-import IconButton from "@mui/material/IconButton";
 import SmallButton from "../../button/SmallButton";
 import { StoreUserTestRailDataRequest } from "../../../types/requests";
 import UserService from "../../../service/api/UserService";
 import { AUTH_ROUTES, OK } from "../../../constants";
 import Loader from "../../loader/Loader";
 import Form from "../core/Form";
+import autoGenerate from "../../autoGenerate/AutoGenerate";
+import { ChromeMessage, Sender } from "../../../types/chrome";
 
 const TokenForm = () => {
   const [isLoading] = useState<boolean>(false);
@@ -19,7 +18,15 @@ const TokenForm = () => {
   const [urlError, setUrlError] = useState<boolean>(false);
   const [tokenError, setTokenError] = useState<boolean>(false);
   const [helperText, setHelperText] = useState<string>("");
+  const [header, setHeader] = useState<string>("Store you token");
   const navigate = useNavigate();
+  const { state } = useLocation();
+
+  useEffect(() => {
+    if (state && state.message) {
+      setHeader(state.message);
+    }
+  });
 
   const handleClick = async () => {
     if (url !== undefined && token !== undefined) {
@@ -52,11 +59,134 @@ const TokenForm = () => {
     });
   };
 
-  const getTestRailToken = () => {
+  const goToTheSettings = () => {
     chrome.tabs.update({
       url: `${url}/index.php?/mysettings`,
     });
     setHelperText("Please generate new API key in the API keys tab and put it in the field. This field is requried");
+  };
+
+  const openApiKeys = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "a[class*=tab4]",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => console.log(response)
+      );
+    });
+  };
+
+  const addKey = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "[id=addToken] a",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => console.log(response)
+      );
+    });
+  };
+
+  const fillTokenName = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "fill",
+      additional: {
+        selector: "[id=userTokenNAme]",
+        value: "ChromeExtension",
+      },
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => console.log(response)
+      );
+    });
+  };
+
+  const clickGenerateKey = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "[id=userTokenGenerate]",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => console.log(response)
+      );
+    });
+  };
+
+  const getToken = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "get_text",
+      additional: "[id=userTokenCode] strong",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => setToken(response)
+      );
+    });
+  };
+
+  const addToken = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "[id=userTokenAdd]",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => setToken(response)
+      );
+    });
   };
 
   const handleFillUrl = (e: any) => {
@@ -80,22 +210,6 @@ const TokenForm = () => {
     setToken(value);
   };
 
-  const getAutomatically = (onClickFunction: any,
-    placement: TooltipProps["placement"],
-    disabled: boolean) => ({
-    endAdornment: (
-      <Tooltip
-        title="Generate value automatically"
-        arrow
-        placement={placement}
-        disableHoverListener={disabled}
-        disableFocusListener={disabled}
-      ><IconButton onClick={onClickFunction} disabled={disabled}>
-          <AutoFixHighIcon />
-        </IconButton>
-      </Tooltip>),
-  });
-
   const fields = [
     {
       element: (<TextField
@@ -106,10 +220,10 @@ const TokenForm = () => {
         error={urlError}
         helperText={urlError ? helperText : ""}
         size="small"
-        InputProps={getAutomatically(getTestRailUrl, "top-end", false)} />),
+        InputProps={autoGenerate(getTestRailUrl, "top-end", false)} />),
     },
     {
-      element: (<TextField
+      element: (<><TextField
         type="password"
         placeholder="API key"
         onChange={(e) => handleFillToken(e)}
@@ -117,8 +231,17 @@ const TokenForm = () => {
         error={tokenError}
         helperText={helperText}
         disabled={url === ""}
-        size="small"
-        InputProps={getAutomatically(getTestRailToken, "bottom-end", url === "")} />),
+        size="small"/>
+      <div>
+        <button onClick={goToTheSettings}>1</button>
+        <button onClick={openApiKeys}>2</button>
+        <button onClick={addKey}>3</button>
+        <button onClick={fillTokenName}>4</button>
+        <button onClick={clickGenerateKey}>5</button>
+        <button onClick={getToken}>6</button>
+        <button onClick={addToken}>7</button>
+      </div>
+      </>),
     },
   ];
 
@@ -133,7 +256,7 @@ const TokenForm = () => {
       <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === ""}/>
     </Grid>
     </>);
-  return (<Form header="Store you token" content={content} />);
+  return (<Form header={header} content={content} />);
 };
 
 export default TokenForm;

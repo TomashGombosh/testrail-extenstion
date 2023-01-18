@@ -27,6 +27,9 @@ const StartForm = () => {
       if (response.data.isFirstLogin) {
         navigate(AUTH_ROUTES.CHANGE_PASSWORD);
       }
+      if (!response.data.isHasTestRailToken || !response.data.isHasTestRailUrl) {
+        navigate(`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TOKEN}`, { state: { message: "Please setup you token" } });
+      }
       const route = localStorage.getItem(STATE_ROUTE_ATTRIBUTE);
       if (route !== null) {
         navigate(route);
