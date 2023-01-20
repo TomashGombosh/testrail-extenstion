@@ -20,6 +20,7 @@ const TokenForm = () => {
   const [isSettingDisabled, setDisableSettings] = useState<boolean>(false);
   const [isGenerateTokenDisabled, setGenerateToken] = useState<boolean>(true);
   const [isCopyTokenDisabled, setCopyToken] = useState<boolean>(true);
+  const [isSaveTokenDisabled, setSaveToken] = useState<boolean>(true);
   const [token, setToken] = useState<string|undefined>("");
   const [url, setUrl] = useState<string|undefined>("");
   const [urlError, setUrlError] = useState<boolean>(false);
@@ -199,6 +200,26 @@ const TokenForm = () => {
     });
   };
 
+  const saveSettings = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "[id=accept]",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => setToken(response)
+      );
+    });
+  };
+
   const showToken = () => ({
     endAdornment: (
       <Tooltip
@@ -225,8 +246,15 @@ const TokenForm = () => {
     const stepTimeout = 1000;
     setTimeout(getToken, stepTimeout);
     setTimeout(addToken, stepTimeout);
-    setCopyToken(true);
-    setDisableSettings(false);
+    setCopyToken(false);
+    setSaveToken(true);
+  };
+
+  const saveToken = () => {
+    const stepTimeout = 1000;
+    setTimeout(saveSettings, stepTimeout);
+    setSaveToken(false);
+    setDisableSettings(true);
   };
 
   const handleFillUrl = (e: any) => {
@@ -286,10 +314,11 @@ const TokenForm = () => {
       <SmallButton text="Start" handleClick={goToTheSettings} disabled={isSettingDisabled}/>
       <SmallButton text="Generate" handleClick={handleAutoGenerate} disabled={isGenerateTokenDisabled}/>
       <SmallButton text="Copy" handleClick={copyToken} disabled={isCopyTokenDisabled}/>
+      <SmallButton text="Save" handleClick={saveToken} disabled={isSaveTokenDisabled}/>
     </Grid>
     <Grid item className="form-item" style={{width: "100%"}} id="buttons">
       <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back"/>
-      <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === ""}/>
+      <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === "" || !isSettingDisabled}/>
     </Grid>
     </>);
   return (<Form header={header} content={content} />);
