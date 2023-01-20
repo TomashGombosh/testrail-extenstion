@@ -5,7 +5,8 @@ import "./Form.css";
 
 export type FormProps = {
     header: string,
-    content: ReactNode
+    content: ReactNode,
+    isAdmin?: boolean
 }
 const Form = (props: FormProps) => (
   <Grid container direction="row" alignItems="center">
@@ -14,7 +15,7 @@ const Form = (props: FormProps) => (
     </Grid>
     <Grid item style={{minWidth: "250px"}}>
       <Grid container
-        className="form-content"
+        className={`form-content ${props.isAdmin ? "admin" : ""}`}
         spacing={0}
         direction="column"
         alignItems="center"

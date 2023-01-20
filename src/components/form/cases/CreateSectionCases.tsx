@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import Grid from "@mui/material/Grid";
 import TextField from "@mui/material/TextField";
 import IconButton from "@mui/material/IconButton";
@@ -21,6 +21,7 @@ import SectionService from "../../../service/api/SectionService";
 import { OK } from "../../../constants/statusCodes";
 import { AxiosResponse } from "axios";
 import { Project, Team } from "../../../types/testrail";
+import { Divider } from "@mui/material";
 
 const CreateSectionCases = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
@@ -126,6 +127,29 @@ const CreateSectionCases = () => {
     navigate(AUTH_ROUTES.DASHBOARD);
   };
 
+  const getInforbar = () => {
+    const project = getProjectFromLocalStorage();
+    const team = getTeamFromLocalStorage();
+    let text;
+    if (project === null && team === undefined) {
+      text = <div className="text error">Please setup default project and team section in the&nbsp;
+        <Link to={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.PROJECTS}`}>Settings</Link></div>;
+    } else if (project === null && team !== undefined) {
+      text = <div className="text error">Please setup default project in the&nbsp;
+        <Link to={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.PROJECTS}`}>Settings</Link></div>;
+    } else if (project !== null && team === undefined) {
+      text = <div className="text error">Please setup default team section in the&nbsp;
+        <Link to={`${AUTH_ROUTES.SETTINGS}${AUTH_ROUTES.TEAMS}`}>Settings</Link></div>;
+    } else {
+      text = <div className="text">Section will be created in the project <strong>{project?.name}</strong>&nbsp;
+      and will be child of the <strong>{team?.name}</strong> section</div>;
+    }
+    return (<Grid item className="form-item" style={{ width: "100%", textAlign: "center" }}>
+      {text}
+      <Divider/>
+      <Divider/> </Grid>);
+  };
+
   const content = isLoading
     ? <Loader/>
     : <>
@@ -154,6 +178,7 @@ const CreateSectionCases = () => {
         <SmallButton handleClick={handleBack} text="Back"/>
         <SmallButton handleClick={handleNext} text="Next" disabled={sectionName === ""}/>
       </Grid>
+      {getInforbar()}
     </>;
 
   return (
