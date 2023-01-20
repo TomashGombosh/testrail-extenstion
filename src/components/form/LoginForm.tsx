@@ -1,8 +1,12 @@
 import React, { useState, useEffect, ReactNode } from "react";
 import { useNavigate } from "react-router-dom";
 import Grid from "@mui/material/Grid";
-import Button from "../button/Button";
+import Tooltip from "@mui/material/Tooltip";
 import TextField from "@mui/material/TextField";
+import VisibilityIcon from "@mui/icons-material/Visibility";
+import VisibilityOffIcon from "@mui/icons-material/VisibilityOff";
+import IconButton from "@mui/material/IconButton";
+import Button from "../button/Button";
 import { AUTH_TOKEN_ATTRIBUTE, AUTH_ROUTES, OK } from "../../constants";
 import api from "../../service/api/api";
 import LoginService from "../../service/api/LoginService";
@@ -12,6 +16,7 @@ import Loader from "../loader/Loader";
 
 const LoginForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
+  const [isShowPassowrd, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const navigate = useNavigate();
@@ -39,6 +44,24 @@ const LoginForm = () => {
     setLoading(false);
   };
 
+  const showPassword = () => ({
+    endAdornment: (
+      <Tooltip
+        title="Show password"
+        arrow
+        placement="top-end"
+      ><IconButton onClick={() => setShowPassword(!isShowPassowrd)}>
+          {isShowPassowrd ? (<VisibilityIcon />) : (<VisibilityOffIcon/>)}
+        </IconButton>
+      </Tooltip>),
+  });
+
+  const handleEnter = async (e: any) => {
+    if (e.key === "Enter") {
+      await handleClick();
+    }
+  };
+
   const content: ReactNode = isLoading
     ? <Loader />
     : (<>
@@ -49,14 +72,19 @@ const LoginForm = () => {
           value={email}
           size="small"
           data-testid="email"/>
-      </Grid><Grid item className="form-item">
+      </Grid>
+      <Grid item className="form-item">
         <TextField
-          type="password"
+          fullWidth
+          type={isShowPassowrd ? "text" : "password"}
           placeholder="Password"
           onChange={(e) => setPassword(e.target.value)}
           value={password}
           size="small"
-          data-testid="password"/>
+          onKeyPress={(e) => handleEnter(e)}
+          data-testid="password"
+          InputProps={showPassword()}
+        />
       </Grid><Grid item className="form-item">
         <Button handleClick={handleClick} text="Login" />
       </Grid>
