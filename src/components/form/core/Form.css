@@ -22,6 +22,11 @@
     max-height: 350px;
 }
 
+.form-content.admin {
+    min-height: 350px;
+    max-height: 425px;
+}
+
 h3 {
     padding: 5px
 }

@@ -1,6 +1,7 @@
 .extension {
   width: 250px;
-  height: 400px;
+  min-height: 275px;
+  max-height: 500px;
   border-radius: 10px 0 10px 10px;
 }
 
@@ -29,7 +30,7 @@
 
 .content {
   min-height: 350px;
-  height: 400px;
+  max-height: 450px;
   width: 250px;
 }
 
@@ -43,6 +44,15 @@
 
 label.text > span {
   font-family: 'Noto Serif Khojki', serif;
+}
+
+.text {
+  font-family: 'Noto Serif Khojki', serif;
+  font-size: 12px;
+}
+
+.text.error {
+  color: red;
 }
 
 .MuiButton-root.MuiButton-contained {

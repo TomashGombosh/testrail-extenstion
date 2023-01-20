@@ -16,6 +16,8 @@ import UserService from "../../service/api/UserService";
 const StartForm = () => {
   const [isLoading, setLoading] = useState<boolean>(true);
   const [isAdminLoggedIn, setIsAdminLoggedIn] = useState<boolean>(false);
+  const [isHasTestRailToken, setHasTestrailToken] = useState<boolean>(false);
+  const [isHasTestRailUrl, setHasTestrailUrl] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,6 +35,8 @@ const StartForm = () => {
       }
       const isAdmin = localStorage.getItem(IS_ADMIN_LOGGED_IN);
       setIsAdminLoggedIn(isAdmin === "true");
+      setHasTestrailToken(response.data.isHasTestRailToken);
+      setHasTestrailUrl(response.data.isHasTestRailToken);
       setLoading(false);
     };
 
@@ -54,16 +58,16 @@ const StartForm = () => {
     {
       link: `${AUTH_ROUTES.CASES}${AUTH_ROUTES.SECTIONS}`,
       text: "Copy cases",
-      disabled: false,
+      disabled: !isHasTestRailToken || !isHasTestRailUrl,
     },
     {
       link: `${AUTH_ROUTES.CASES}${AUTH_ROUTES.MERGE}`,
       text: "Merge cases",
-      disabled: false,
+      disabled: !isHasTestRailToken || !isHasTestRailUrl,
     },
     {
       link: AUTH_ROUTES.SETTINGS,
-      text: "Setting",
+      text: "Settings",
       disabled: false,
     },
     {
@@ -87,10 +91,15 @@ const StartForm = () => {
         <Grid item className="form-item">
           <Button handleClick={handleLogout} text="Logout"/>
         </Grid>
+        {(!isHasTestRailToken || !isHasTestRailUrl) && (
+          <Grid item className="form-item" style={{ textAlign: "center" }}>
+            <div className="text">Please, go to the setting and setup Testrail data</div>
+          </Grid>
+        )}
       </>
     );
   return (
-    <Form content={content} header="Main menu" />
+    <Form content={content} header="Main menu" isAdmin={isAdminLoggedIn}/>
   );
 };
 

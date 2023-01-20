@@ -19,6 +19,7 @@ const LoginForm = () => {
   const [isShowPassowrd, setShowPassword] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const [error, setError] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,6 +42,7 @@ const LoginForm = () => {
       api.defaults.headers.Authorization = `Bearer ${token}`;
       navigate(AUTH_ROUTES.DASHBOARD);
     }
+    setError(response.data.error);
     setLoading(false);
   };
 
@@ -85,9 +87,13 @@ const LoginForm = () => {
           data-testid="password"
           InputProps={showPassword()}
         />
-      </Grid><Grid item className="form-item">
+      </Grid>
+      <Grid item className="form-item">
         <Button handleClick={handleClick} text="Login" />
       </Grid>
+      {error !== "" && (<Grid item className="form-item">
+        <div className="text error">{error}</div>
+      </Grid>)}
     </>);
 
   return (<Form content={content} header="Login" />);
