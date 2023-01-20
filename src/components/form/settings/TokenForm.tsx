@@ -20,7 +20,6 @@ const TokenForm = () => {
   const [isSettingDisabled, setDisableSettings] = useState<boolean>(false);
   const [isGenerateTokenDisabled, setGenerateToken] = useState<boolean>(true);
   const [isCopyTokenDisabled, setCopyToken] = useState<boolean>(true);
-  const [isSaveTokenDisabled, setSaveToken] = useState<boolean>(true);
   const [token, setToken] = useState<string|undefined>("");
   const [url, setUrl] = useState<string|undefined>("");
   const [urlError, setUrlError] = useState<boolean>(false);
@@ -43,6 +42,7 @@ const TokenForm = () => {
         url,
         apiKey: token,
       };
+      saveToken();
       const response = await UserService.updateTestRailData(request);
       if (response.status === OK) {
         navigate(AUTH_ROUTES.DASHBOARD);
@@ -247,14 +247,12 @@ const TokenForm = () => {
     setTimeout(getToken, stepTimeout);
     setTimeout(addToken, stepTimeout);
     setCopyToken(false);
-    setSaveToken(true);
+    setDisableSettings(true);
   };
 
   const saveToken = () => {
     const stepTimeout = 1000;
     setTimeout(saveSettings, stepTimeout);
-    setSaveToken(false);
-    setDisableSettings(true);
   };
 
   const handleFillUrl = (e: any) => {
@@ -314,11 +312,10 @@ const TokenForm = () => {
       <SmallButton text="Start" handleClick={goToTheSettings} disabled={isSettingDisabled}/>
       <SmallButton text="Generate" handleClick={handleAutoGenerate} disabled={isGenerateTokenDisabled}/>
       <SmallButton text="Copy" handleClick={copyToken} disabled={isCopyTokenDisabled}/>
-      <SmallButton text="Save" handleClick={saveToken} disabled={isSaveTokenDisabled}/>
     </Grid>
     <Grid item className="form-item" style={{width: "100%"}} id="buttons">
       <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back"/>
-      <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === "" || !isSettingDisabled}/>
+      <SmallButton handleClick={handleClick} text="Add" disabled={(token === "" || url === "") && !isSettingDisabled}/>
     </Grid>
     </>);
   return (<Form header={header} content={content} />);
