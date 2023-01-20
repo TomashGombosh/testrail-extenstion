@@ -246,8 +246,8 @@ const TokenForm = () => {
     const stepTimeout = 1000;
     setTimeout(getToken, stepTimeout);
     setTimeout(addToken, stepTimeout);
-    setCopyToken(false);
-    setDisableSettings(true);
+    setCopyToken(true);
+    setDisableSettings(false);
   };
 
   const saveToken = () => {
