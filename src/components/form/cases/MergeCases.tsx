@@ -158,7 +158,7 @@ const MergeCases = () => {
 
   const handleBack = () => {
     localStorage.removeItem(STATE_ROUTE_ATTRIBUTE);
-    navigate(AUTH_ROUTES.ME);
+    navigate(AUTH_ROUTES.DASHBOARD);
   };
 
   const confirmContent = <Grid container direction="row">

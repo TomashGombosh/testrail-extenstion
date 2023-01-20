@@ -42,6 +42,7 @@ const TokenForm = () => {
         url,
         apiKey: token,
       };
+      saveToken();
       const response = await UserService.updateTestRailData(request);
       if (response.status === OK) {
         navigate(AUTH_ROUTES.DASHBOARD);
@@ -199,6 +200,26 @@ const TokenForm = () => {
     });
   };
 
+  const saveSettings = () => {
+    const message: ChromeMessage = {
+      from: Sender.React,
+      message: "click",
+      additional: "[id=accept]",
+    };
+    const queryInfo: chrome.tabs.QueryInfo = {
+      active: true,
+      currentWindow: true,
+    };
+    chrome.tabs && chrome.tabs.query(queryInfo, (tabs) => {
+      const currentTabId = tabs[0].id !== undefined ? tabs[0].id : 1;
+      chrome.tabs.sendMessage(
+        currentTabId,
+        message,
+        (response) => setToken(response)
+      );
+    });
+  };
+
   const showToken = () => ({
     endAdornment: (
       <Tooltip
@@ -227,6 +248,11 @@ const TokenForm = () => {
     setTimeout(addToken, stepTimeout);
     setCopyToken(true);
     setDisableSettings(false);
+  };
+
+  const saveToken = () => {
+    const stepTimeout = 1000;
+    setTimeout(saveSettings, stepTimeout);
   };
 
   const handleFillUrl = (e: any) => {
@@ -289,7 +315,7 @@ const TokenForm = () => {
     </Grid>
     <Grid item className="form-item" style={{width: "100%"}} id="buttons">
       <SmallButton handleClick={() => navigate(AUTH_ROUTES.SETTINGS)} text="Back"/>
-      <SmallButton handleClick={handleClick} text="Add" disabled={token === "" || url === ""}/>
+      <SmallButton handleClick={handleClick} text="Add" disabled={(token === "" || url === "") && !isSettingDisabled}/>
     </Grid>
     </>);
   return (<Form header={header} content={content} />);
